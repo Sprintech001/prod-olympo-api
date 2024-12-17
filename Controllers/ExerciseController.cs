@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using olympo_webapi.Models;
 
 namespace olympo_webapi.Controllers
 {
@@ -8,36 +7,95 @@ namespace olympo_webapi.Controllers
 	[ApiController]
 	public class ExerciseController : ControllerBase
 	{
-		// GET: api/<ExerciseController>
+		private readonly IExerciseRepository _exerciseRepository;
+
+		public ExerciseController(IExerciseRepository exerciseRepository)
+		{
+			_exerciseRepository = exerciseRepository;
+		}
+
 		[HttpGet]
-		public IEnumerable<string> Get()
+		public async Task<ActionResult<IEnumerable<Exercise>>> Get()
 		{
-			return new string[] { "value1", "value2" };
+			var exercises = await _exerciseRepository.GetAsync();
+
+			if (exercises == null || exercises.Count == 0)
+			{
+				return NotFound("No exercises found.");
+			}
+
+			return Ok(exercises);
 		}
 
-		// GET api/<ExerciseController>/5
 		[HttpGet("{id}")]
-		public string Get(int id)
+		public async Task<ActionResult<Exercise>> GetById(int id)
 		{
-			return "value";
+			var exercise = await _exerciseRepository.GetByIdAsync(id);
+
+			if (exercise == null)
+			{
+				return NotFound($"Exercise with ID {id} not found.");
+			}
+
+			return Ok(exercise);
 		}
 
-		// POST api/<ExerciseController>
+		// POST: api/exercise
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public async Task<IActionResult> Post([FromBody] Exercise exercise)
 		{
+			if (exercise == null)
+			{
+				return BadRequest("Exercise data is required.");
+			}
+
+			await _exerciseRepository.AddAsync(exercise);
+
+			return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
 		}
 
-		// PUT api/<ExerciseController>/5
+		// PUT: api/exercise/{id}
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public async Task<IActionResult> Put(int id, [FromBody] Exercise updatedExercise)
 		{
+			if (updatedExercise == null || id != updatedExercise.Id)
+			{
+				return BadRequest("Invalid exercise data or mismatched ID.");
+			}
+
+			try
+			{
+				var existingExercise = await _exerciseRepository.GetByIdAsync(id);
+				if (existingExercise == null)
+				{
+					return NotFound($"Exercise with ID {id} not found.");
+				}
+
+				// Use a method to update the properties since the setters are private
+				existingExercise.UpdateDetails(updatedExercise.Name, updatedExercise.Description);
+
+				await _exerciseRepository.UpdateAsync(existingExercise);
+
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Internal server error: {ex.Message}");
+			}
 		}
 
-		// DELETE api/<ExerciseController>/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
+			var exercise = await _exerciseRepository.GetByIdAsync(id);
+			if (exercise == null)
+			{
+				return NotFound($"Exercise with ID {id} not found.");
+			}
+
+			await _exerciseRepository.DeleteAsync(id);
+
+			return NoContent();
 		}
 	}
 }

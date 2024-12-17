@@ -2,11 +2,11 @@
 {
 	public interface IExerciseRepository
 	{
-		void Add(Exercise exercise);
-		List<Exercise> Get();
-		Exercise? GetById(int id);
-		void Update(Exercise exercise);
-		void Delete(int id);
-		bool Exists(int id);
+		Task AddAsync(Exercise exercise);
+		Task<List<Exercise>> GetAsync();
+		Task<Exercise?> GetByIdAsync(int id);
+		Task UpdateAsync(Exercise exercise);
+		Task DeleteAsync(int id);
+		Task<bool> ExistsAsync(int id);
 	}
 }

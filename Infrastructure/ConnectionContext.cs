@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using olympo_webapi.Models;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace olympo_webapi.Infrastructure
 {

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using olympo_webapi.Models;
+
 
 namespace olympo_webapi.Controllers
 {
@@ -6,36 +8,92 @@ namespace olympo_webapi.Controllers
 	[ApiController]
 	public class SessionController : ControllerBase
 	{
-		// GET: api/<SessionController>
+		private readonly ISessionRepository _sessionRepository;
+
+		public SessionController(ISessionRepository sessionRepository)
+		{
+			_sessionRepository = sessionRepository;
+		}
+
 		[HttpGet]
-		public IEnumerable<string> Get()
+		public async Task<ActionResult<IEnumerable<Session>>> Get()
 		{
-			return new string[] { "value1", "value2" };
+			var sessions = await _sessionRepository.GetAsync();
+
+			if (sessions == null || !sessions.Any())
+			{
+				return NotFound("No sessions found.");
+			}
+
+			return Ok(sessions);
 		}
 
-		// GET api/<SessionController>/5
 		[HttpGet("{id}")]
-		public string Get(int id)
+		public async Task<ActionResult<Session>> GetById(int id)
 		{
-			return "value";
+			var session = await _sessionRepository.GetByIdAsync(id);
+
+			if (session == null)
+			{
+				return NotFound($"Session with ID {id} not found.");
+			}
+
+			return Ok(session);
 		}
 
-		// POST api/<SessionController>
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public async Task<IActionResult> Post([FromBody] Session session)
 		{
+			if (session == null)
+			{
+				return BadRequest("Session data is required.");
+			}
+
+			await _sessionRepository.AddAsync(session);
+
+			return CreatedAtAction(nameof(GetById), new { id = session.Id }, session);
 		}
 
-		// PUT api/<SessionController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public async Task<IActionResult> Put(int id, [FromBody] Session updatedSession)
 		{
+			if (updatedSession == null || id != updatedSession.Id)
+			{
+				return BadRequest("Invalid session data or mismatched ID.");
+			}
+
+			try
+			{
+				var existingSession = await _sessionRepository.GetByIdAsync(id);
+				if (existingSession == null)
+				{
+					return NotFound($"Session with ID {id} not found.");
+				}
+
+				existingSession.UpdateSession(updatedSession.Repetitions, updatedSession.Series, updatedSession.Time);
+
+				await _sessionRepository.UpdateAsync(existingSession);
+
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Internal server error: {ex.Message}");
+			}
 		}
 
-		// DELETE api/<SessionController>/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
+			var session = await _sessionRepository.GetByIdAsync(id);
+			if (session == null)
+			{
+				return NotFound($"Session with ID {id} not found.");
+			}
+
+			await _sessionRepository.DeleteAsync(id);
+
+			return NoContent();
 		}
 	}
 }

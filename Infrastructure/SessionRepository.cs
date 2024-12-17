@@ -12,41 +12,71 @@ namespace olympo_webapi.Infrastructure
 			_context = context;
 		}
 
+		public async Task AddAsync(Session session)
+		{
+			await _context.Sessions.AddAsync(session);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task<List<Session>> GetAsync()
+		{
+			return await _context.Sessions.ToListAsync();
+		}
+
+		public async Task<Session?> GetByIdAsync(int id)
+		{
+			return await _context.Sessions.FindAsync(id);
+		}
+
+		public async Task UpdateAsync(Session session)
+		{
+			_context.Sessions.Update(session);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			var session = await _context.Sessions.FindAsync(id);
+			if (session != null)
+			{
+				_context.Sessions.Remove(session);
+				await _context.SaveChangesAsync();
+			}
+		}
+
+		public async Task<bool> ExistsAsync(int id)
+		{
+			return await _context.Sessions.AnyAsync(e => e.Id == id);
+		}
+
 		public void Add(Session session)
 		{
-			_context.Sessions.Add(session);
-			_context.SaveChanges();
+			AddAsync(session).Wait();
 		}
 
 		public List<Session> Get()
 		{
-			return _context.Sessions.ToList();
+			return GetAsync().Result;
 		}
 
 		public Session? GetById(int id)
 		{
-			return _context.Sessions.Find(id);
+			return GetByIdAsync(id).Result;
 		}
 
 		public void Update(Session session)
 		{
-			_context.Sessions.Update(session);
-			_context.SaveChanges();
+			UpdateAsync(session).Wait();
 		}
 
 		public void Delete(int id)
 		{
-			var session = _context.Sessions.Find(id);
-			if (session != null)
-			{
-				_context.Sessions.Remove(session);
-				_context.SaveChanges();
-			}
+			DeleteAsync(id).Wait();
 		}
 
 		public bool Exists(int id)
 		{
-			return _context.Sessions.Any(e => e.Id == id);
+			return ExistsAsync(id).Result;
 		}
 	}
 }

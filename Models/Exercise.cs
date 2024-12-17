@@ -27,6 +27,12 @@ namespace olympo_webapi.Models
 			Description = description;
 		}
 
+		public void UpdateDetails(string name, string description)
+		{
+			Name = name;
+			Description = description;
+		}
+
 		public void AddSession(Session session)
 		{
 			if (session != null)

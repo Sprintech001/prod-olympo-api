@@ -2,11 +2,11 @@
 {
 	public interface ISessionRepository
 	{
-		void Add(Session session);
-		List<Session> Get();
-		Session? GetById(int id);
-		void Update(Session session);
-		void Delete(int id);
-		bool Exists(int id);
+		Task AddAsync(Session session);
+		Task<List<Session>> GetAsync();
+		Task<Session?> GetByIdAsync(int id);
+		Task UpdateAsync(Session session);
+		Task DeleteAsync(int id);
+		Task<bool> ExistsAsync(int id);
 	}
 }
