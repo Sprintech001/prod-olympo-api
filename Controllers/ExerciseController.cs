@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using olympo_webapi.Models;
+using System.Xml.Linq;
 
 namespace olympo_webapi.Controllers
 {
@@ -69,7 +70,9 @@ namespace olympo_webapi.Controllers
 					return NotFound($"Exercise with ID {id} not found.");
 				}
 
-				existingExercise.UpdateDetails(updatedExercise.Name, updatedExercise.Description);
+
+
+			existingExercise.UpdateAsynct(updatedExercise.Name, updatedExercise.Description);
 
 				await _exerciseRepository.UpdateAsync(existingExercise);
 
