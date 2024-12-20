@@ -101,7 +101,8 @@ namespace olympo_webapi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("PhotoPath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -116,7 +117,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             Name = "Admin",
                             Password = "password",
-                            Photo = "defaultphoto.jpg"
+                            PhotoPath = "defaultphoto.jpg"
                         });
                 });
 

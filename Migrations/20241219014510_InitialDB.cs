@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace olympo_webapi.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateUserConstructor : Migration
+    public partial class InitialDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,7 @@ namespace olympo_webapi.Migrations
                     CPF = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Photo = table.Column<string>(type: "text", nullable: true),
+                    PhotoPath = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -68,6 +68,11 @@ namespace olympo_webapi.Migrations
                         principalTable: "Exercises",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CPF", "Email", "Name", "Password", "PhotoPath" },
+                values: new object[] { 1, "123.456.789-01", "adm@gmail.com", "Admin", "password", "defaultphoto.jpg" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exercises_UserId",

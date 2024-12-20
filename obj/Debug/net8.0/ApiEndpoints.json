@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[olympo_webapi.Models.Exercise, olympo-webapi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -28,22 +28,16 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "value",
-        "Type": "System.String",
+        "Name": "exercise",
+        "Type": "olympo_webapi.Models.Exercise",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "olympo_webapi.Controllers.ExerciseController",
-    "Method": "Get",
+    "Method": "GetById",
     "RelativePath": "api/Exercise/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -57,7 +51,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.String",
+        "Type": "olympo_webapi.Models.Exercise",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -81,18 +75,12 @@
         "IsRequired": true
       },
       {
-        "Name": "value",
-        "Type": "System.String",
+        "Name": "updatedExercise",
+        "Type": "olympo_webapi.Models.Exercise",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "olympo_webapi.Controllers.ExerciseController",
@@ -108,13 +96,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "olympo_webapi.Controllers.SessionController",
@@ -126,7 +108,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[olympo_webapi.Models.Session, olympo-webapi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -145,22 +127,16 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "value",
-        "Type": "System.String",
+        "Name": "session",
+        "Type": "olympo_webapi.Models.Session",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "olympo_webapi.Controllers.SessionController",
-    "Method": "Get",
+    "Method": "GetById",
     "RelativePath": "api/Session/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -174,7 +150,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.String",
+        "Type": "olympo_webapi.Models.Session",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -198,18 +174,12 @@
         "IsRequired": true
       },
       {
-        "Name": "value",
-        "Type": "System.String",
+        "Name": "updatedSession",
+        "Type": "olympo_webapi.Models.Session",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "olympo_webapi.Controllers.SessionController",
@@ -225,13 +195,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "olympo_webapi.Controllers.UserController",

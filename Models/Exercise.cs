@@ -5,40 +5,12 @@ namespace olympo_webapi.Models
 	public class Exercise
 	{
 		[Key]
-		public int Id { get; private set; }
-		public string Name { get; private set; }
-		public string Description { get; private set; }
-		public enum Day
-		{
-			Domingo,
-			Segunda,
-			Terça,
-			Quarta,
-			Quinta,
-			Sexta,
-			Sábado
-		}
-		public List<Session> sessions { get; private set; } = new List<Session>();
+		public int Id { get; set; }
+		public string? Name { get; set; }
+		public string? Description { get; set; }
+		
+		public int? Type { get; set; }
+		public List<Session> sessions { get; set; } = new List<Session>();
 
-		public Exercise(int id, string name, string description)
-		{
-			Id = id;
-			Name = name;
-			Description = description;
-		}
-
-		public void UpdateDetails(string name, string description)
-		{
-			Name = name;
-			Description = description;
-		}
-
-		public void AddSession(Session session)
-		{
-			if (session != null)
-			{
-				sessions.Add(session);
-			}
-		}
 	}
 }

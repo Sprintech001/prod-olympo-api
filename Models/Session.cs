@@ -5,10 +5,10 @@ namespace olympo_webapi.Models
 	public class Session
 	{
 		[Key]
-		public int Id { get; private set; }
-		public int Repetitions { get; private set; }
-		public int Series { get; private set; }
-		public double Time { get; private set; } 
+		public int Id { get; set; }
+		public int Repetitions { get; set; }
+		public int Series { get; set; }
+		public double Time { get; set; } 
 
 		public Session(int repetitions, int series, double time)
 		{
