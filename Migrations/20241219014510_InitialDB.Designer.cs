@@ -11,8 +11,8 @@ using olympo_webapi.Infrastructure;
 namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20241215173139_InitialDb")]
-    partial class InitialDb
+    [Migration("20241219014510_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,8 @@ namespace olympo_webapi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("PhotoPath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -119,7 +120,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             Name = "Admin",
                             Password = "password",
-                            Photo = "defaultphoto.jpg"
+                            PhotoPath = "defaultphoto.jpg"
                         });
                 });
 

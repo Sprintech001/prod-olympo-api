@@ -40,7 +40,6 @@ namespace olympo_webapi.Controllers
 			return Ok(exercise);
 		}
 
-		// POST: api/exercise
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] Exercise exercise)
 		{
@@ -54,7 +53,6 @@ namespace olympo_webapi.Controllers
 			return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
 		}
 
-		// PUT: api/exercise/{id}
 		[HttpPut("{id}")]
 		public async Task<IActionResult> Put(int id, [FromBody] Exercise updatedExercise)
 		{
@@ -71,7 +69,6 @@ namespace olympo_webapi.Controllers
 					return NotFound($"Exercise with ID {id} not found.");
 				}
 
-				// Use a method to update the properties since the setters are private
 				existingExercise.UpdateDetails(updatedExercise.Name, updatedExercise.Description);
 
 				await _exerciseRepository.UpdateAsync(existingExercise);

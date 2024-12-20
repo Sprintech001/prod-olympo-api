@@ -45,12 +45,33 @@ namespace olympo_webapi.Controllers
 		{
 			if (user == null)
 			{
-				return BadRequest("User data is required.");
+				return BadRequest("User não foi definido.");
 			}
 
-			await _userRepository.AddAsync(user);
+			if (user.Photo == null || user.Photo.Length == 0)
+			{
+				return BadRequest("Adicione uma foto válida.");
+			}
 
-			return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+			try
+			{
+				var storagePath = Path.Combine(Environment.CurrentDirectory, "Storage");
+				Directory.CreateDirectory(storagePath);
+
+				var sanitizedFileName = Path.GetFileName(user.Photo.FileName);
+				var filePath = Path.Combine(storagePath, sanitizedFileName);
+
+				using Stream fileStream = new FileStream(filePath, FileMode.Create);
+				await user.Photo.CopyToAsync(fileStream);
+
+				await _userRepository.AddAsync(user);
+				
+				return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, "An error occurred while processing the request.");
+			}
 		}
 
 		[HttpPut("{id}")]

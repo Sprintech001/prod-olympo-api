@@ -20,7 +20,7 @@ namespace olympo_webapi.Infrastructure
 
 			modelBuilder.Entity<User>(entity =>
 			{
-				entity.HasKey(u => u.Id); 
+				entity.HasKey(u => u.Id);
 				entity.Property(u => u.Name).IsRequired().HasMaxLength(100);
 				entity.Property(u => u.Email).IsRequired().HasMaxLength(100);
 				entity.Property(u => u.Password).IsRequired();
@@ -28,13 +28,13 @@ namespace olympo_webapi.Infrastructure
 
 			modelBuilder.Entity<Exercise>(entity =>
 			{
-				entity.HasKey(e => e.Id); 
+				entity.HasKey(e => e.Id);
 				entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
 			});
 
 			modelBuilder.Entity<Session>(entity =>
 			{
-				entity.HasKey(s => s.Id); 
+				entity.HasKey(s => s.Id);
 				entity.Property(s => s.Repetitions).IsRequired();
 				entity.Property(s => s.Series).IsRequired();
 				entity.Property(s => s.Time).IsRequired();
@@ -47,11 +47,25 @@ namespace olympo_webapi.Infrastructure
 					CPF = "123.456.789-01",
 					Name = "Admin",
 					Email = "adm@gmail.com",
-					Photo = "defaultphoto.jpg",
+					PhotoPath = "defaultphoto.jpg",
 					Password = "password"
 				}
 			);
 
+			modelBuilder.Entity<Exercise>().HasData(
+			new Exercise
+			{
+				Id = 1,
+				Name = "Agachamento Terra",
+				Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora."
+			},
+			new Exercise
+			{
+				Id = 2,
+				Name = "Rosca Concentrada",
+				Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial."
+			}
+		);
 			base.OnModelCreating(modelBuilder);
 		}
 	}
