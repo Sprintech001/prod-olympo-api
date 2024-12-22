@@ -11,8 +11,8 @@ using olympo_webapi.Infrastructure;
 namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20241219014510_InitialDB")]
-    partial class InitialDB
+    [Migration("20241222010208_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,8 +32,10 @@ namespace olympo_webapi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Day")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -49,6 +51,22 @@ namespace olympo_webapi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Exercises");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Day = 5,
+                            Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
+                            Name = "Agachamento Terra"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Day = 5,
+                            Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
+                            Name = "Rosca Concentrada"
+                        });
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Session", b =>
@@ -87,7 +105,6 @@ namespace olympo_webapi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CPF")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -105,7 +122,6 @@ namespace olympo_webapi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhotoPath")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

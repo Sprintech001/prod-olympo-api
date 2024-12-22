@@ -58,14 +58,14 @@ namespace olympo_webapi.Infrastructure
 				Id = 1,
 				Name = "Agachamento Terra",
 				Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
-				Type = (int?)Day.Sexta
+				Day = (int?)Day.Sexta
 			},
 			new Exercise
 			{
 				Id = 2,
 				Name = "Rosca Concentrada",
 				Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
-				Type = (int?)Day.Sexta
+				Day = (int?)Day.Sexta
 
 			}
 		);

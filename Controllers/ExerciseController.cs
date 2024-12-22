@@ -64,19 +64,8 @@ namespace olympo_webapi.Controllers
 
 			try
 			{
-				var existingExercise = await _exerciseRepository.GetByIdAsync(id);
-				if (existingExercise == null)
-				{
-					return NotFound($"Exercise with ID {id} not found.");
-				}
-
-
-
-			existingExercise.UpdateAsynct(updatedExercise.Name, updatedExercise.Description);
-
-				await _exerciseRepository.UpdateAsync(existingExercise);
-
-				return NoContent();
+				await _exerciseRepository.UpdateAsync(updatedExercise);
+				return Ok("Exercicio atualizado");
 			}
 			catch (Exception ex)
 			{

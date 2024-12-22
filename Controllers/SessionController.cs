@@ -64,16 +64,7 @@ namespace olympo_webapi.Controllers
 
 			try
 			{
-				var existingSession = await _sessionRepository.GetByIdAsync(id);
-				if (existingSession == null)
-				{
-					return NotFound($"Session with ID {id} not found.");
-				}
-
-				existingSession.UpdateSession(updatedSession.Repetitions, updatedSession.Series, updatedSession.Time);
-
-				await _sessionRepository.UpdateAsync(existingSession);
-
+				await _sessionRepository.UpdateAsync(updatedSession);
 				return NoContent();
 			}
 			catch (Exception ex)
