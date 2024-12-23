@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using olympo_webapi.Models;
 
-
 namespace olympo_webapi.Controllers
 {
 	[Route("api/[controller]")]
@@ -62,9 +61,16 @@ namespace olympo_webapi.Controllers
 				return BadRequest("Invalid session data or mismatched ID.");
 			}
 
+			var exists = await _sessionRepository.ExistsAsync(id);
+			if (!exists)
+			{
+				return NotFound($"Session with ID {id} not found.");
+			}
+
 			try
 			{
 				await _sessionRepository.UpdateAsync(updatedSession);
+
 				return NoContent();
 			}
 			catch (Exception ex)

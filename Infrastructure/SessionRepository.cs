@@ -64,11 +64,6 @@ namespace olympo_webapi.Infrastructure
 			return GetByIdAsync(id).Result;
 		}
 
-		public void Update(Session session)
-		{
-			UpdateAsync(session).Wait();
-		}
-
 		public void Delete(int id)
 		{
 			DeleteAsync(id).Wait();
