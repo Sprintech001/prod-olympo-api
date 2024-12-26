@@ -10,12 +10,11 @@ namespace olympo_webapi.Models
 		public string? CPF { get; set; }
 		public string? Name { get; set; }
 		public string? Email { get; set; }
+		public string? ImagePath { get; set; }
+		public string? Password { get; set; }
+		public List<Exercise>? Exercise { get; set; } = new List<Exercise>();
 
 		[NotMapped]
-		public IFormFile? Photo { get; set; }
-
-		public string? PhotoPath { get; set; }
-		public string? Password { get; set; }
-		public List<Exercise> Exercise { get; set; } = new List<Exercise>();
+		public IFormFile? Image { get; set; }
 	}
 }

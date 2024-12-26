@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using olympo_webapi.Infrastructure;
 using olympo_webapi.Models;
+using olympo_webapi.Services;
 
 namespace olympo_webapi.Controllers
 {
@@ -7,13 +9,16 @@ namespace olympo_webapi.Controllers
 	[ApiController]
 	public class UserController : ControllerBase
 	{
-		private readonly IUserRepository _userRepository;
 
-		public UserController(IUserRepository userRepository)
+		private readonly IUserRepository _userRepository;
+		private readonly IFileUploadService _fileUploadService;
+
+		public UserController(IUserRepository userRepository, IFileUploadService fileUploadService)
 		{
 			_userRepository = userRepository;
+			_fileUploadService = fileUploadService;
 		}
-
+		
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<User>>> Get()
 		{
@@ -41,31 +46,32 @@ namespace olympo_webapi.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] User user)
+		public async Task<IActionResult> Post([FromBody] User input)
 		{
-			if (user == null)
-			{
-				return BadRequest("User não foi definido.");
-			}
-
-			if (user.Photo == null || user.Photo.Length == 0)
-			{
-				return BadRequest("Adicione uma foto válida.");
-			}
-
 			try
 			{
-				var storagePath = Path.Combine(Environment.CurrentDirectory, "Storage");
-				Directory.CreateDirectory(storagePath);
+				if (input == null)
+				{
+					return BadRequest("Dados do exercicio inválido.");
+				}
 
-				var sanitizedFileName = Path.GetFileName(user.Photo.FileName);
-				var filePath = Path.Combine(storagePath, sanitizedFileName);
+				string? imagePath = null;
+				if (input.Image != null)
+				{
+					imagePath = await _fileUploadService.UploadFileAsync(input.Image);
+				}
 
-				using Stream fileStream = new FileStream(filePath, FileMode.Create);
-				await user.Photo.CopyToAsync(fileStream);
+				var user = new User
+				{
+					CPF = input.CPF,
+					Name =  input.Name,
+					Email = input.Email,
+					ImagePath = imagePath,
+					Password = input.Password,
+				};
 
 				await _userRepository.AddAsync(user);
-				
+
 				return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
 			}
 			catch (Exception ex)
@@ -92,7 +98,7 @@ namespace olympo_webapi.Controllers
 
 				existingUser.Name = updatedUser.Name;
 				existingUser.Email = updatedUser.Email;
-				existingUser.Photo = updatedUser.Photo;
+				existingUser.Image = updatedUser.Image;
 				existingUser.Password = updatedUser.Password;
 
 				await _userRepository.UpdateAsync(existingUser);

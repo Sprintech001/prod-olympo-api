@@ -47,7 +47,7 @@ namespace olympo_webapi.Infrastructure
 					CPF = "123.456.789-01",
 					Name = "Admin",
 					Email = "adm@gmail.com",
-					PhotoPath = "defaultphoto.jpg",
+					ImagePath = "defaultphoto.jpg",
 					Password = "password"
 				}
 			);
@@ -61,7 +61,6 @@ namespace olympo_webapi.Infrastructure
 				Day = (int?)Day.Sexta,
 				ImagePath = "",
 				VideoPath = "",
-				Link = ""
 			},
 			new Exercise
 			{
@@ -71,7 +70,6 @@ namespace olympo_webapi.Infrastructure
 				Day = (int?)Day.Sexta,
 				ImagePath = "",
 				VideoPath = "",
-				Link = ""
 			}
 		);
 			base.OnModelCreating(modelBuilder);

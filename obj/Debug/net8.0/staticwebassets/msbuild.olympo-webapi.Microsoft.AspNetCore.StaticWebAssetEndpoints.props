@@ -1,0 +1,64 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/IMG-20230928-WA0002.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\IMG-20230928-WA0002.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-8W9pQ3Nzb572Tks/J5arh9jFxalDRoHa3eK4r4ADRwU="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"243236"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00228W9pQ3Nzb572Tks/J5arh9jFxalDRoHa3eK4r4ADRwU=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 21:06:51 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/IMG-20230928-WA0002.vg3a4f095d.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\IMG-20230928-WA0002.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"vg3a4f095d"},{"Name":"integrity","Value":"sha256-8W9pQ3Nzb572Tks/J5arh9jFxalDRoHa3eK4r4ADRwU="},{"Name":"label","Value":"_content/olympo-webapi/images/IMG-20230928-WA0002.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"243236"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00228W9pQ3Nzb572Tks/J5arh9jFxalDRoHa3eK4r4ADRwU=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 21:06:51 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/IMG-20231107-WA0042.i074zc6371.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\IMG-20231107-WA0042.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"i074zc6371"},{"Name":"integrity","Value":"sha256-fjDco09rz7SGswTwz25FdNuZozZ8fJDabwqtD8BZpLY="},{"Name":"label","Value":"_content/olympo-webapi/images/IMG-20231107-WA0042.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"199105"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022fjDco09rz7SGswTwz25FdNuZozZ8fJDabwqtD8BZpLY=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 21:41:11 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/IMG-20231107-WA0042.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\IMG-20231107-WA0042.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-fjDco09rz7SGswTwz25FdNuZozZ8fJDabwqtD8BZpLY="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"199105"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022fjDco09rz7SGswTwz25FdNuZozZ8fJDabwqtD8BZpLY=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 21:41:11 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/Jems - CBIE.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\Jems - CBIE.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-tS5z2tyIbmL\u002BQTcJxei04rhoUOMzFLOf2QN6zrJhPck="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"38612"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022tS5z2tyIbmL\u002BQTcJxei04rhoUOMzFLOf2QN6zrJhPck=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 20:50:59 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/Jems - CBIE.rw3uay5kxt.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\Jems - CBIE.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"rw3uay5kxt"},{"Name":"integrity","Value":"sha256-tS5z2tyIbmL\u002BQTcJxei04rhoUOMzFLOf2QN6zrJhPck="},{"Name":"label","Value":"_content/olympo-webapi/images/Jems - CBIE.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"38612"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022tS5z2tyIbmL\u002BQTcJxei04rhoUOMzFLOf2QN6zrJhPck=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 20:50:59 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/wp9233651-cyber-world-wallpapers.3yfxjhkm63.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\wp9233651-cyber-world-wallpapers.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"3yfxjhkm63"},{"Name":"integrity","Value":"sha256-\u002B2XMDQTe3DMFpCnAiZ5SNcmSVUpb2iHjh8wACSfjP18="},{"Name":"label","Value":"_content/olympo-webapi/images/wp9233651-cyber-world-wallpapers.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1180570"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022\u002B2XMDQTe3DMFpCnAiZ5SNcmSVUpb2iHjh8wACSfjP18=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 20:48:36 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/images/wp9233651-cyber-world-wallpapers.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\wp9233651-cyber-world-wallpapers.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-\u002B2XMDQTe3DMFpCnAiZ5SNcmSVUpb2iHjh8wACSfjP18="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"1180570"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022\u002B2XMDQTe3DMFpCnAiZ5SNcmSVUpb2iHjh8wACSfjP18=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 20:48:36 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/videos/apresentacao.mkv">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\videos\apresentacao.mkv'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-0awMVAsQXmhEjQIN3wcABijOb8gecAQi7tQm1RJeMOE="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"20777106"},{"Name":"Content-Type","Value":"application/octet-stream"},{"Name":"ETag","Value":"\u00220awMVAsQXmhEjQIN3wcABijOb8gecAQi7tQm1RJeMOE=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 21:45:50 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/olympo-webapi/videos/apresentacao.th54oocqgf.mkv">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\videos\apresentacao.mkv'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"th54oocqgf"},{"Name":"integrity","Value":"sha256-0awMVAsQXmhEjQIN3wcABijOb8gecAQi7tQm1RJeMOE="},{"Name":"label","Value":"_content/olympo-webapi/videos/apresentacao.mkv"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"20777106"},{"Name":"Content-Type","Value":"application/octet-stream"},{"Name":"ETag","Value":"\u00220awMVAsQXmhEjQIN3wcABijOb8gecAQi7tQm1RJeMOE=\u0022"},{"Name":"Last-Modified","Value":"Thu, 26 Dec 2024 21:45:50 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

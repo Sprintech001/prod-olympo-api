@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using olympo_webapi.Services;
 using olympo_webapi.Models;
-using System.Xml.Linq;
 
 namespace olympo_webapi.Controllers
 {
@@ -8,11 +8,14 @@ namespace olympo_webapi.Controllers
 	[ApiController]
 	public class ExerciseController : ControllerBase
 	{
-		private readonly IExerciseRepository _exerciseRepository;
 
-		public ExerciseController(IExerciseRepository exerciseRepository)
+		private readonly IExerciseRepository _exerciseRepository;
+		private readonly IFileUploadService _fileUploadService;
+
+		public ExerciseController(IExerciseRepository exerciseRepository, IFileUploadService fileUploadService)
 		{
 			_exerciseRepository = exerciseRepository;
+			_fileUploadService = fileUploadService;
 		}
 
 		[HttpGet]
@@ -40,18 +43,65 @@ namespace olympo_webapi.Controllers
 
 			return Ok(exercise);
 		}
+		[HttpPost("upload")]
+		public async Task<IActionResult> UploadFile(IFormFile file)
+		{
+			try
+			{
+				var filePath = await _fileUploadService.UploadFileAsync(file);
+				return Ok(new { filePath });
+			}
+			catch (InvalidOperationException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Erro: {ex}");
+				return StatusCode(500, "An error occurred while processing the request. ==> " + ex.Message);
+			}
+		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] Exercise exercise)
+		public async Task<IActionResult> Post([FromForm] Exercise input)
 		{
-			if (exercise == null)
+			try
 			{
-				return BadRequest("Exercise data is required.");
+				if (input == null)
+				{
+					return BadRequest("Dados do exercicio inválido.");
+				}
+
+				string? imagePath = null;
+				if (input.Image != null)
+				{
+					imagePath = await _fileUploadService.UploadFileAsync(input.Image);
+				}
+
+				string? videoPath = null;
+				if (input.Video != null)
+				{
+					videoPath = await _fileUploadService.UploadFileAsync(input.Video);
+				}
+
+				var exercise = new Exercise
+				{
+					Name = input.Name,
+					Description = input.Description,
+					ImagePath = imagePath,
+					VideoPath = videoPath,
+					Day = input.Day,
+				};
+
+				await _exerciseRepository.AddAsync(exercise);
+
+				return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
 			}
-
-			await _exerciseRepository.AddAsync(exercise);
-
-			return CreatedAtAction(nameof(GetById), new { id = exercise.Id }, exercise);
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Erro: {ex}");
+				return StatusCode(500, "An error occurred while processing the request. ==> " + ex.Message);
+			}
 		}
 
 		[HttpPut("{id}")]

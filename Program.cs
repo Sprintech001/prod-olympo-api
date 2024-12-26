@@ -1,5 +1,6 @@
 using olympo_webapi.Infrastructure;
 using olympo_webapi.Models;
+using olympo_webapi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ builder.Services.AddDbContext<ConnectionContext>(options =>
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-
+builder.Services.AddScoped<IFileUploadService, FileUploadService>(); 
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowAll", policy =>

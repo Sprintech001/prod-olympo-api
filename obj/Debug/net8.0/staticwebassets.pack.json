@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\IMG-20230928-WA0002.jpg",
+      "PackagePath": "staticwebassets\\images\\IMG-20230928-WA0002.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\IMG-20231107-WA0042.jpg",
+      "PackagePath": "staticwebassets\\images\\IMG-20231107-WA0042.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\Jems - CBIE.png",
+      "PackagePath": "staticwebassets\\images\\Jems - CBIE.png"
+    },
+    {
+      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\wp9233651-cyber-world-wallpapers.jpg",
+      "PackagePath": "staticwebassets\\images\\wp9233651-cyber-world-wallpapers.jpg"
+    },
+    {
+      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\videos\\apresentacao.mkv",
+      "PackagePath": "staticwebassets\\videos\\apresentacao.mkv"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.olympo-webapi.props",
+      "PackagePath": "build\\olympo-webapi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.olympo-webapi.props",
+      "PackagePath": "buildMultiTargeting\\olympo-webapi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.olympo-webapi.props",
+      "PackagePath": "buildTransitive\\olympo-webapi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.olympo-webapi.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.olympo-webapi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
