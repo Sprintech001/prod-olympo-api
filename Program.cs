@@ -15,7 +15,8 @@ builder.Services.AddDbContext<ConnectionContext>(options =>
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-builder.Services.AddScoped<IFileUploadService, FileUploadService>(); 
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+builder.Services.AddScoped<IGetFileServices, GetFileServices>();
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowAll", policy =>
@@ -39,6 +40,8 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 

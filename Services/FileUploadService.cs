@@ -10,7 +10,7 @@ namespace olympo_webapi.Services
 
 		public FileUploadService()
 		{
-			_targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+			_targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Storage");
 			Directory.CreateDirectory(_targetFilePath);
 		}
 

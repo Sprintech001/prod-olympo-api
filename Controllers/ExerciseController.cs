@@ -105,21 +105,47 @@ namespace olympo_webapi.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> Put(int id, [FromBody] Exercise updatedExercise)
+		public async Task<IActionResult> Put(int id, [FromForm] Exercise updatedExercise, [FromForm] IFormFile? image, [FromForm] IFormFile? video)
 		{
 			if (updatedExercise == null || id != updatedExercise.Id)
 			{
-				return BadRequest("Invalid exercise data or mismatched ID.");
+				return BadRequest("Exercicio não encontrado.");
 			}
 
 			try
 			{
-				await _exerciseRepository.UpdateAsync(updatedExercise);
-				return Ok("Exercicio atualizado");
+				var existingExercise = await _exerciseRepository.GetByIdAsync(id);
+				if (existingExercise == null)
+				{
+					return NotFound("Exercicio não encontrado.");
+				}
+
+				existingExercise.Name = updatedExercise.Name;
+				existingExercise.Description = updatedExercise.Description;
+				existingExercise.Day = updatedExercise.Day;
+
+				if (image != null)
+				{
+					existingExercise.ImagePath = await _fileUploadService.UploadFileAsync(image);
+				}
+
+				if (video != null)
+				{
+					existingExercise.VideoPath = await _fileUploadService.UploadFileAsync(video);
+				}
+
+				await _exerciseRepository.UpdateAsync(existingExercise);
+				return Ok("Exercício atualizado");
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, $"Internal server error: {ex.Message}");
+				var errorMessage = $"Internal server error: {ex.Message}";
+				if (ex.InnerException != null)
+				{
+					errorMessage += $" Inner exception: {ex.InnerException.Message}";
+				}
+
+				return StatusCode(500, errorMessage);
 			}
 		}
 

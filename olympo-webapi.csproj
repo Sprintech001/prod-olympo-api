@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Storage\images\" />
+    <Folder Include="Storage\videos\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

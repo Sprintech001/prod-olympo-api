@@ -1,24 +1,8 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\IMG-20230928-WA0002.jpg",
-      "PackagePath": "staticwebassets\\images\\IMG-20230928-WA0002.jpg"
-    },
-    {
-      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\IMG-20231107-WA0042.jpg",
-      "PackagePath": "staticwebassets\\images\\IMG-20231107-WA0042.jpg"
-    },
-    {
-      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\Jems - CBIE.png",
-      "PackagePath": "staticwebassets\\images\\Jems - CBIE.png"
-    },
-    {
-      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\wp9233651-cyber-world-wallpapers.jpg",
-      "PackagePath": "staticwebassets\\images\\wp9233651-cyber-world-wallpapers.jpg"
-    },
-    {
-      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\videos\\apresentacao.mkv",
-      "PackagePath": "staticwebassets\\videos\\apresentacao.mkv"
+      "Id": "C:\\Users\\thoma\\SSD\\Sprintech\\projects\\Olympo\\olympo-webapi\\olympo-webapi\\wwwroot\\images\\teste.png",
+      "PackagePath": "staticwebassets\\images\\teste.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.olympo-webapi.props",
