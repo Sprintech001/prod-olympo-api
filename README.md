@@ -9,6 +9,7 @@
 
 ### Iniciando
 
+```bash
 - dotnet ef migrations add InitialDb (Iniciando uma migration)
 - dotnet ef update database (Gerando tabelas)
 - dotnet run (Rodando projeto)
