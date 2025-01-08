@@ -60,7 +60,7 @@ namespace olympo_webapi.Infrastructure
 				Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
 				Day = (int?)Day.Sexta,
 				ImagePath = "images/exe2.png",
-				VideoPath = "",
+				VideoPath = "videos/execucao.mp4"
 			},
 			new Exercise
 			{
@@ -69,7 +69,7 @@ namespace olympo_webapi.Infrastructure
 				Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
 				Day = (int?)Day.Sexta,
 				ImagePath = "images/exe.png",
-				VideoPath = "",
+				VideoPath = "videos/execucao.mp4"
 			}
 		);
 			base.OnModelCreating(modelBuilder);
