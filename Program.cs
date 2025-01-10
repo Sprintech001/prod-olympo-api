@@ -8,10 +8,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração do Kestrel para aceitar conexões externas
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5217); // Ou qualquer outra porta que preferir
+    options.ListenAnyIP(5217); 
 });
 
 builder.Services.AddControllers();
