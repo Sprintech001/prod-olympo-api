@@ -1,0 +1,8 @@
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.csproj.AssemblyReference.cache
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.AssemblyInfoInputs.cache
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.AssemblyInfo.cs
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.csproj.CoreCompileInputs.cache
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net9.0\olympo-webapi.sourcelink.json

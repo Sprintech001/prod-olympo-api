@@ -4,7 +4,7 @@ namespace olympo_webapi.Models
 {
 	public interface IUserRepository
 	{
-		Task<List<User>> GetAsync();              
+		Task<List<User>> GetAsync();  
 		Task<User?> GetByIdAsync(int id);         
 		Task<User?> GetByEmailAsync(string email); 
 		Task AddAsync(User user);                 

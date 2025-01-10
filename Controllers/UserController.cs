@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using olympo_webapi.Infrastructure;
 using olympo_webapi.Models;
 using olympo_webapi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace olympo_webapi.Controllers
 {
@@ -67,7 +69,7 @@ namespace olympo_webapi.Controllers
 					Name =  input.Name,
 					Email = input.Email,
 					ImagePath = imagePath,
-					Password = input.Password,
+					Password = HashService.HashPassword(input.Password),
 				};
 
 				await _userRepository.AddAsync(user);

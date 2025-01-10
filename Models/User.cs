@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace olympo_webapi.Models
 {
+
+	public enum UserType
+    {
+        Administrador,
+        Professor,
+        Aluno
+    }
 	public class User
 	{
 		[Key]
@@ -10,6 +17,7 @@ namespace olympo_webapi.Models
 		public string? CPF { get; set; }
 		public string? Name { get; set; }
 		public string? Email { get; set; }
+		public UserType Type { get; set; }
 		public string? ImagePath { get; set; }
 		public string? Password { get; set; }
 		public List<Exercise>? Exercise { get; set; } = new List<Exercise>();
