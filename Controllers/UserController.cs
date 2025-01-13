@@ -47,6 +47,36 @@ namespace olympo_webapi.Controllers
 			return Ok(user);
 		}
 
+		[HttpGet("type")]
+		public async Task<ActionResult<IEnumerable<User>>> GetUserType(int type)
+		{
+			var users = await _userRepository.GetAsync();
+
+			if (users == null || !users.Any())
+			{
+				return NotFound("No users found.");
+			}
+
+			if (type == 1)
+			{
+				users = users.Where(u => (int)u.Type == 1).ToList();
+			}
+			else if (type == 2)
+			{
+				users = users.Where(u => (int)u.Type == 2).ToList();
+			}
+			else if (type == 3)
+			{
+				users = users.Where(u => (int)u.Type == 3).ToList();
+			}
+			else
+			{
+				return BadRequest("Invalid user type.");
+			}
+
+			return Ok(users);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] User input)
 		{

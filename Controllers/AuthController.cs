@@ -57,7 +57,6 @@ public class AuthController : ControllerBase
         }
 
         var user = await _userRepository.GetByEmailAsync(loginRequest.Email);
-        Console.WriteLine("User" + user);
 
         if (user == null)
         {
