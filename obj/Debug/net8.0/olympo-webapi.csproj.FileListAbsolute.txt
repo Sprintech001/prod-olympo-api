@@ -284,3 +284,4 @@ C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Deb
 C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net8.0\olympo-webapi.pdb
 C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net8.0\olympo-webapi.genruntimeconfig.cache
 C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Debug\net8.0\ref\olympo-webapi.dll
+C:\Users\thoma\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\bin\Debug\net8.0\Newtonsoft.Json.dll

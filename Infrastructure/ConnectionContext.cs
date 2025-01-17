@@ -33,12 +33,20 @@ namespace olympo_webapi.Infrastructure
                 entity.Property(u => u.Password).IsRequired();
                 entity.Property(u => u.Type)
                     .HasConversion<string>();
+
+                entity.HasMany(u => u.Exercise)
+                      .WithOne(e => e.User)
+                      .HasForeignKey(e => e.UserId);
             });
 
             modelBuilder.Entity<Exercise>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+
+                entity.HasMany(e => e.Sessions)
+                      .WithOne(s => s.Exercise)
+                      .HasForeignKey(s => s.ExerciseId);
             });
 
             modelBuilder.Entity<Session>(entity =>
@@ -58,7 +66,7 @@ namespace olympo_webapi.Infrastructure
                     Type = UserType.Administrador,
                     Email = "adm@gmail.com",
                     ImagePath = "defaultphoto.jpg",
-                    Password = HashService.HashPassword("password")
+                    Password = HashService.HashPassword("password"),
                 },
                 new User
                 {
@@ -79,6 +87,16 @@ namespace olympo_webapi.Infrastructure
                     Email = "maria@gmail.com",
                     ImagePath = "defaultphoto.jpg",
                     Password = HashService.HashPassword("password")
+                },
+                new User
+                {
+                    Id = 4,
+                    CPF = "123.456.789-01",
+                    Name = "João",
+                    Type = UserType.Aluno,
+                    Email = "joao@gmail.com",
+                    ImagePath = "defaultphoto.jpg",
+                    Password = HashService.HashPassword("password")
                 }
                 
             );
@@ -91,7 +109,8 @@ namespace olympo_webapi.Infrastructure
                 Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
                 Day = (int?)Day.Sexta,
                 ImagePath = "images/exe2.png",
-                VideoPath = "videos/execucao.mp4"
+                VideoPath = "videos/execucao.mp4",
+                UserId = 3 
             },
             new Exercise
             {
@@ -100,9 +119,89 @@ namespace olympo_webapi.Infrastructure
                 Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
                 Day = (int?)Day.Sexta,
                 ImagePath = "images/exe.png",
-                VideoPath = "videos/execucao.mp4"
+                VideoPath = "videos/execucao.mp4",
+                UserId = 4 
+            },
+            new Exercise
+            {
+                Id = 3,
+                Name = "Supino Reto",
+                Description = "Deite-se em um banco plano, segure a barra com uma pegada média e abaixe-a até tocar levemente o peito. Empurre a barra para cima até que os braços estejam completamente estendidos.",
+                Day = (int?)Day.Segunda,
+                ImagePath = "images/exe3.png",
+                VideoPath = "videos/execucao.mp4",
+                UserId = 3 
+            },
+            new Exercise
+            {
+                Id = 4,
+                Name = "Puxada Aberta",
+                Description = "Sente-se no aparelho de puxada e segure a barra com uma pegada ampla. Puxe a barra em direção ao peito enquanto mantém a coluna reta, contraindo os músculos das costas. Retorne à posição inicial de forma controlada.",
+                Day = (int?)Day.Quarta,
+                ImagePath = "images/exe4.png",
+                VideoPath = "videos/execucao.mp4",
+                UserId = 3 
+            },
+            new Exercise
+            {
+                Id = 5,
+                Name = "Levantamento Terra",
+                Description = "Fique em pé com os pés na largura dos ombros, segure a barra com uma pegada mista e mantenha a coluna reta. Levante a barra do chão até a altura do quadril, mantendo o controle, e abaixe-a lentamente.",
+                Day = (int?)Day.Sexta,
+                ImagePath = "images/exe5.png",
+                VideoPath = "videos/execucao.mp4",
+                UserId = 4 
             }
         );
+
+        modelBuilder.Entity<Session>().HasData(
+            new Session
+            {
+                Id = 1,
+                Repetitions = 10,
+                Series = 3,
+                Breaks = 60.0,
+                Time = 5.0,
+                ExerciseId = 1
+            },
+            new Session
+            {
+                Id = 2,
+                Repetitions = 12,
+                Series = 4,
+                Breaks = 45.0,
+                Time = 6.0,
+                ExerciseId = 2
+            },
+            new Session
+            {
+                Id = 3,
+                Repetitions = 8,
+                Series = 5,
+                Breaks = 90.0,
+                Time = 7.5,
+                ExerciseId = 3
+            },
+            new Session
+            {
+                Id = 4,
+                Repetitions = 15,
+                Series = 3,
+                Breaks = 30.0,
+                Time = 4.5,
+                ExerciseId = 4
+            },
+            new Session
+            {
+                Id = 5,
+                Repetitions = 6,
+                Series = 6,
+                Breaks = 120.0,
+                Time = 10.0,
+                ExerciseId = 5
+            }
+        );
+
             base.OnModelCreating(modelBuilder);
         }
     }
