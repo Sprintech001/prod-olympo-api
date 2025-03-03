@@ -46,7 +46,3 @@ app.UseCors("AllowAll");
 app.MapControllers();
 
 app.Run();
-
-
-
-
