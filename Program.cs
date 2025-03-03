@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthorization();
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 builder.Services.AddControllers();
 
