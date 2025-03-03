@@ -1,0 +1,8 @@
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.csproj.AssemblyReference.cache
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.GeneratedMSBuildEditorConfig.editorconfig
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.AssemblyInfoInputs.cache
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.AssemblyInfo.cs
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.csproj.CoreCompileInputs.cache
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.MvcApplicationPartsAssemblyInfo.cs
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.MvcApplicationPartsAssemblyInfo.cache
+D:\SSD\Sprintech\projects\Olympo\olympo-webapi\olympo-webapi\obj\Release\net8.0\olympo-webapi.sourcelink.json
