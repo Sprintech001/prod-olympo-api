@@ -1,6 +1,12 @@
 D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\olympo-webapi.exe
+D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\publish\web.config
 D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\appsettings.Development.json
 D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\appsettings.json
+D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\publish\appsettings.Development.json
+D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\publish\appsettings.json
+D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\publish\olympo-webapi.deps.json
+D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\publish\olympo-webapi.runtimeconfig.json
+D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\publish\olympo-webapi.staticwebassets.endpoints.json
 D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\olympo-webapi.dll
 D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\olympo-webapi.runtimeconfig.json
 D:\SSD\Sprintech\projects\Olympo\front\olympo-webapi\olympo-webapi\publish\olympo-webapi.pdb
