@@ -12,14 +12,14 @@ namespace olympo_webapi.Models
         public string? Description { get; set; }
         public string? ImagePath { get; set; }
         public string? VideoPath { get; set; }
-        public int? Day { get; set; }
         public int UserId { get; set; }
 
-        [JsonIgnore]
-        public List<Session>? Sessions { get; set; } = new List<Session>();
-
-        [ForeignKey("UserId")]
+		[ForeignKey("UserId")]
         public User? User { get; set; }
+
+        public List<Session>? Sessions { get; set; } = new List<Session>();
+		public List<ExerciseDay>? ExerciseDays { get; set; } = new List<ExerciseDay>();
+
 
         [NotMapped]
         public IFormFile? Image { get; set; }

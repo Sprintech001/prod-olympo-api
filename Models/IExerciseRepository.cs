@@ -1,4 +1,5 @@
-﻿namespace olympo_webapi.Models
+﻿
+namespace olympo_webapi.Models
 {
 	public interface IExerciseRepository
 	{
@@ -8,5 +9,6 @@
 		Task UpdateAsync(Exercise exercise);
 		Task DeleteAsync(int id);
 		Task<bool> ExistsAsync(int id);
+		Task<IEnumerable<object>> GetAsync(Func<object, bool> value);
 	}
 }

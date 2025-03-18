@@ -4,6 +4,7 @@ using olympo_webapi.Infrastructure;
 using olympo_webapi.Models;
 using olympo_webapi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace olympo_webapi.Controllers
 {
@@ -48,22 +49,35 @@ namespace olympo_webapi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{userId}/exercises")]
-        public async Task<ActionResult<IEnumerable<Exercise>>> GetExercisesByUserId(int userId)
-        {
-            var user = await _userRepository.GetByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"User with ID {userId} not found.");
-            }
+		[HttpGet("{userId}/exercises")]
+		public async Task<ActionResult<IEnumerable<Exercise>>> GetExercisesByUserId(int userId)
+		{
+			var user = await _userRepository.GetByIdAsync(userId);
+			if (user == null)
+			{
+				return NotFound($"User with ID {userId} not found.");
+			}
 
-            var exercises = await _exerciseRepository.GetAsync();
-            var userExercises = exercises.Where(e => e.UserId == userId).ToList();
+			var exercises = await _exerciseRepository
+				.GetAsync(e => e.UserId == userId); 
 
-            return Ok(userExercises);
-        }
+			if (!exercises.Any())
+			{
+				return NotFound($"No exercises found for user with ID {userId}.");
+			}
 
-        [HttpGet("type")]
+			foreach (var exercise in exercises)
+			{
+				await _context.Entry(exercise)
+					.Collection(e => e.Sessions) 
+					.LoadAsync();
+			}
+
+			return Ok(exercises);
+		}
+
+
+		[HttpGet("type")]
         public async Task<ActionResult<IEnumerable<User>>> GetUserType(int type)
         {
             var users = await _userRepository.GetAsync();
@@ -113,6 +127,7 @@ namespace olympo_webapi.Controllers
                 {
                     CPF = input.CPF,
                     Name = input.Name,
+                    Type = input.Type,
                     Email = input.Email,
                     ImagePath = imagePath,
                     Password = HashService.HashPassword(input.Password),

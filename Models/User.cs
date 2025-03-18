@@ -20,7 +20,7 @@ namespace olympo_webapi.Models
 		public UserType Type { get; set; }
 		public string? ImagePath { get; set; }
 		public string? Password { get; set; }
-		public List<Exercise>? Exercise { get; set; } = new List<Exercise>();
+		public List<Exercise>? Exercises { get; set; } = new List<Exercise>();
 
 		[NotMapped]
 		public IFormFile? Image { get; set; }
