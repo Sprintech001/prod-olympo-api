@@ -10,6 +10,7 @@ namespace olympo_webapi.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<ExerciseDay> ExerciseDays { get; set; }
 
         public ConnectionContext(DbContextOptions<ConnectionContext> options)
         : base(options)
@@ -27,6 +28,8 @@ namespace olympo_webapi.Infrastructure
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.Property(u => u.Id)
+                    .ValueGeneratedOnAdd();
                 entity.HasKey(u => u.Id);
                 entity.Property(u => u.Name).IsRequired().HasMaxLength(100);
                 entity.Property(u => u.Email).IsRequired().HasMaxLength(100);
@@ -34,28 +37,53 @@ namespace olympo_webapi.Infrastructure
                 entity.Property(u => u.Type)
                     .HasConversion<string>();
 
-                entity.HasMany(u => u.Exercise)
+                entity.HasMany(u => u.Exercises)
                       .WithOne(e => e.User)
                       .HasForeignKey(e => e.UserId);
             });
 
             modelBuilder.Entity<Exercise>(entity =>
             {
+                entity.Property(u => u.Id)
+                    .ValueGeneratedOnAdd();
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.UserId)
+                    .IsRequired(false);  
 
                 entity.HasMany(e => e.Sessions)
-                      .WithOne(s => s.Exercise)
-                      .HasForeignKey(s => s.ExerciseId);
+                    .WithOne(s => s.Exercise)
+                    .HasForeignKey(s => s.ExerciseId);
+
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(e => e.UserId)
+                    .IsRequired(false); 
             });
 
             modelBuilder.Entity<Session>(entity =>
             {
+                entity.Property(u => u.Id)
+                    .ValueGeneratedOnAdd();
                 entity.HasKey(s => s.Id);
                 entity.Property(s => s.Repetitions).IsRequired();
                 entity.Property(s => s.Series).IsRequired();
                 entity.Property(s => s.Time).IsRequired();
-            });                
+            });   
+
+            modelBuilder.Entity<ExerciseDay>(entity =>
+            {
+                entity.Property(u => u.Id)
+                    .ValueGeneratedOnAdd();
+                entity.HasKey(ed => ed.Id);
+
+                entity.Property(ed => ed.UserId).IsRequired();
+                entity.Property(ed => ed.ExerciseId).IsRequired();
+                entity.Property(ed => ed.SessionId).IsRequired();
+            });           
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -107,7 +135,6 @@ namespace olympo_webapi.Infrastructure
                 Id = 1,
                 Name = "Agachamento Terra",
                 Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
-                Day = (int?)Day.Sexta,
                 ImagePath = "images/exe2.png",
                 VideoPath = "videos/execucao.mp4",
                 UserId = 3 
@@ -117,7 +144,6 @@ namespace olympo_webapi.Infrastructure
                 Id = 2,
                 Name = "Rosca Concentrada",
                 Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
-                Day = (int?)Day.Sexta,
                 ImagePath = "images/exe.png",
                 VideoPath = "videos/execucao.mp4",
                 UserId = 4 
@@ -127,7 +153,6 @@ namespace olympo_webapi.Infrastructure
                 Id = 3,
                 Name = "Supino Reto",
                 Description = "Deite-se em um banco plano, segure a barra com uma pegada média e abaixe-a até tocar levemente o peito. Empurre a barra para cima até que os braços estejam completamente estendidos.",
-                Day = (int?)Day.Segunda,
                 ImagePath = "images/exe3.png",
                 VideoPath = "videos/execucao.mp4",
                 UserId = 3 
@@ -137,7 +162,6 @@ namespace olympo_webapi.Infrastructure
                 Id = 4,
                 Name = "Puxada Aberta",
                 Description = "Sente-se no aparelho de puxada e segure a barra com uma pegada ampla. Puxe a barra em direção ao peito enquanto mantém a coluna reta, contraindo os músculos das costas. Retorne à posição inicial de forma controlada.",
-                Day = (int?)Day.Quarta,
                 ImagePath = "images/exe4.png",
                 VideoPath = "videos/execucao.mp4",
                 UserId = 3 
@@ -147,7 +171,6 @@ namespace olympo_webapi.Infrastructure
                 Id = 5,
                 Name = "Levantamento Terra",
                 Description = "Fique em pé com os pés na largura dos ombros, segure a barra com uma pegada mista e mantenha a coluna reta. Levante a barra do chão até a altura do quadril, mantendo o controle, e abaixe-a lentamente.",
-                Day = (int?)Day.Sexta,
                 ImagePath = "images/exe5.png",
                 VideoPath = "videos/execucao.mp4",
                 UserId = 4 
@@ -201,6 +224,49 @@ namespace olympo_webapi.Infrastructure
                 ExerciseId = 5
             }
         );
+
+        modelBuilder.Entity<ExerciseDay>().HasData(
+        new ExerciseDay
+        {
+            Id = 1,
+            ExerciseId = 1, 
+            DayOfWeek = "Segunda", 
+            SessionId = 1, 
+            UserId = 3 
+        },
+        new ExerciseDay
+        {
+            Id = 2,
+            ExerciseId = 2, 
+            DayOfWeek = "Terça", 
+            SessionId = 2,
+            UserId = 4
+        },
+        new ExerciseDay
+        {
+            Id = 3,
+            ExerciseId = 3, 
+            DayOfWeek = "Quarta", 
+            SessionId = 3, 
+            UserId = 3 
+        },
+        new ExerciseDay
+        {
+            Id = 4,
+            ExerciseId = 4, 
+            DayOfWeek = "Domingo", 
+            SessionId = 4, 
+            UserId = 3 
+        },
+        new ExerciseDay
+        {
+            Id = 5,
+            ExerciseId = 5, 
+            DayOfWeek = "Segunda", 
+            SessionId = 5, 
+            UserId = 4 
+        }
+    );
 
             base.OnModelCreating(modelBuilder);
         }

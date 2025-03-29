@@ -29,9 +29,6 @@ namespace olympo_webapi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Day")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -43,7 +40,10 @@ namespace olympo_webapi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId1")
                         .HasColumnType("integer");
 
                     b.Property<string>("VideoPath")
@@ -53,13 +53,14 @@ namespace olympo_webapi.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("UserId1");
+
                     b.ToTable("Exercises");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Day = 5,
                             Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
                             ImagePath = "images/exe2.png",
                             Name = "Agachamento Terra",
@@ -69,7 +70,6 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 2,
-                            Day = 5,
                             Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
                             ImagePath = "images/exe.png",
                             Name = "Rosca Concentrada",
@@ -79,7 +79,6 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 3,
-                            Day = 1,
                             Description = "Deite-se em um banco plano, segure a barra com uma pegada média e abaixe-a até tocar levemente o peito. Empurre a barra para cima até que os braços estejam completamente estendidos.",
                             ImagePath = "images/exe3.png",
                             Name = "Supino Reto",
@@ -89,7 +88,6 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 4,
-                            Day = 3,
                             Description = "Sente-se no aparelho de puxada e segure a barra com uma pegada ampla. Puxe a barra em direção ao peito enquanto mantém a coluna reta, contraindo os músculos das costas. Retorne à posição inicial de forma controlada.",
                             ImagePath = "images/exe4.png",
                             Name = "Puxada Aberta",
@@ -99,12 +97,81 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 5,
-                            Day = 5,
                             Description = "Fique em pé com os pés na largura dos ombros, segure a barra com uma pegada mista e mantenha a coluna reta. Levante a barra do chão até a altura do quadril, mantendo o controle, e abaixe-a lentamente.",
                             ImagePath = "images/exe5.png",
                             Name = "Levantamento Terra",
                             UserId = 4,
                             VideoPath = "videos/execucao.mp4"
+                        });
+                });
+
+            modelBuilder.Entity("olympo_webapi.Models.ExerciseDay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SessionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ExerciseDays");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DayOfWeek = "Segunda",
+                            ExerciseId = 1,
+                            SessionId = 1,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DayOfWeek = "Terça",
+                            ExerciseId = 2,
+                            SessionId = 2,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DayOfWeek = "Quarta",
+                            ExerciseId = 3,
+                            SessionId = 3,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DayOfWeek = "Domingo",
+                            ExerciseId = 4,
+                            SessionId = 4,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DayOfWeek = "Segunda",
+                            ExerciseId = 5,
+                            SessionId = 5,
+                            UserId = 4
                         });
                 });
 
@@ -229,7 +296,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Admin",
-                            Password = "AQAAAAIAAYagAAAAEC06Xg2znmDDB3+grBDpOpWJtmQD5fQ8v7irnrczfskf8EMtFd6sCUCGdSVC71YG/Q==",
+                            Password = "AQAAAAIAAYagAAAAELOauLEx5838Mb4F+WTCsOCBB5zL+o7qmdopJJ97fkBkqhtFObBtoX3BWZ3BiwaQgA==",
                             Type = "Administrador"
                         },
                         new
@@ -239,7 +306,7 @@ namespace olympo_webapi.Migrations
                             Email = "jose@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "José",
-                            Password = "AQAAAAIAAYagAAAAEGxHsoYGFMnd/JgUsgOvLU7zg//hFoibcL5QepDdPgGq7YLElBmODh5Fgc2brs25VA==",
+                            Password = "AQAAAAIAAYagAAAAELTcw3+vd1nShtMWmG5kRT8RKdEi8lgnPua/LpleLBwyxrqy1Zrc5BxYCne4L2RM4w==",
                             Type = "Professor"
                         },
                         new
@@ -249,7 +316,7 @@ namespace olympo_webapi.Migrations
                             Email = "maria@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Maria",
-                            Password = "AQAAAAIAAYagAAAAENecS3o44ESqlgy9rujQf4BEbwIN7qjimFSIgoTdw3eZefh3/b0QkYKFe1USGw1Hkw==",
+                            Password = "AQAAAAIAAYagAAAAEHCqdH8dR4A1XlnZgMk478bXWJOxnqqu5qL5v1o1pFjUuM11mNTTIC+JJVz1R5Bbig==",
                             Type = "Aluno"
                         },
                         new
@@ -259,7 +326,7 @@ namespace olympo_webapi.Migrations
                             Email = "joao@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "João",
-                            Password = "AQAAAAIAAYagAAAAEGz1uBiy+TMBGyTsFrKZBsXcSH0aanfT78hRJAO+BkOCIK0LH4lmP4s1BH2ZEaT33A==",
+                            Password = "AQAAAAIAAYagAAAAEMJpw/kRaww7XRxYFgxkTuxL3u7l5JNDYVNXpc/9FhdQkdaM87WK1RySjkmhzrEEDQ==",
                             Type = "Aluno"
                         });
                 });
@@ -267,12 +334,23 @@ namespace olympo_webapi.Migrations
             modelBuilder.Entity("olympo_webapi.Models.Exercise", b =>
                 {
                     b.HasOne("olympo_webapi.Models.User", "User")
-                        .WithMany("Exercise")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("olympo_webapi.Models.User", null)
+                        .WithMany("Exercises")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("olympo_webapi.Models.ExerciseDay", b =>
+                {
+                    b.HasOne("olympo_webapi.Models.Exercise", null)
+                        .WithMany("ExerciseDays")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Session", b =>
@@ -288,12 +366,14 @@ namespace olympo_webapi.Migrations
 
             modelBuilder.Entity("olympo_webapi.Models.Exercise", b =>
                 {
+                    b.Navigation("ExerciseDays");
+
                     b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.User", b =>
                 {
-                    b.Navigation("Exercise");
+                    b.Navigation("Exercises");
                 });
 #pragma warning restore 612, 618
         }

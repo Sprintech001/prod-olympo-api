@@ -7,11 +7,9 @@ namespace olympo_webapi.Models
 	{
 		[Key]
 		public int Id { get; set; }
-
 		public int ExerciseId { get; set; }
-		public int DayOfWeek { get; set; } 
-
-		[ForeignKey("ExerciseId")]
-		public Exercise? Exercise { get; set; }
+		public string DayOfWeek { get; set; } 
+		public int SessionId { get; set; }
+		public int UserId { get; set; }
 	}
 }

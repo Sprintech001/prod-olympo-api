@@ -92,7 +92,6 @@ namespace olympo_webapi.Controllers
                     Description = input.Description,
                     ImagePath = imagePath,
                     VideoPath = videoPath,
-                    Day = input.Day,
                 };
 
                 await _exerciseRepository.AddAsync(exercise);
@@ -124,7 +123,6 @@ namespace olympo_webapi.Controllers
 
                 existingExercise.Name = updatedExercise.Name;
                 existingExercise.Description = updatedExercise.Description;
-                existingExercise.Day = updatedExercise.Day;
 
                 if (image != null)
                 {
