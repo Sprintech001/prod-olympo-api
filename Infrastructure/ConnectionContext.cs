@@ -34,10 +34,6 @@ namespace olympo_webapi.Infrastructure
                 entity.Property(u => u.Email).IsRequired().HasMaxLength(100);
                 entity.Property(u => u.Password).IsRequired();
                 entity.Property(u => u.Type).HasConversion<string>();
-
-                entity.HasMany(u => u.Exercises)
-                      .WithOne(e => e.User)
-                      .HasForeignKey(e => e.UserId);
             });
 
             modelBuilder.Entity<Exercise>(entity =>
@@ -45,18 +41,10 @@ namespace olympo_webapi.Infrastructure
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.UserId).IsRequired(false);
-
-                entity.HasMany(e => e.Sessions)
-                      .WithOne(s => s.Exercise)
-                      .HasForeignKey(s => s.ExerciseId)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.User)
-                      .WithMany()
-                      .HasForeignKey(e => e.UserId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.SetNull);
+                entity.Property(e => e.Description).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.ImagePath).IsRequired(false);
+                entity.Property(e => e.VideoPath).IsRequired(false);
+            
             });
 
             modelBuilder.Entity<Session>(entity =>
@@ -72,9 +60,10 @@ namespace olympo_webapi.Infrastructure
             {
                 entity.Property(ed => ed.Id).ValueGeneratedOnAdd();
                 entity.HasKey(ed => ed.Id);
-                entity.Property(ed => ed.UserId).IsRequired();
-                entity.Property(ed => ed.ExerciseId).IsRequired();
-                entity.Property(ed => ed.SessionId).IsRequired();
+                
+                entity.Property(ed => ed.UserId).IsRequired(false);
+                entity.Property(ed => ed.ExerciseId).IsRequired(false);
+                entity.Property(ed => ed.SessionId).IsRequired(false);
             });
 
             modelBuilder.Entity<User>().HasData(
@@ -85,11 +74,11 @@ namespace olympo_webapi.Infrastructure
             );
 
             modelBuilder.Entity<Exercise>().HasData(
-                new Exercise { Id = 1, Name = "Agachamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe2.png", VideoPath = "videos/execucao.mp4", UserId = 3 },
-                new Exercise { Id = 2, Name = "Rosca Concentrada", Description = "Descrição do exercício", ImagePath = "images/exe.png", VideoPath = "videos/execucao.mp4", UserId = 4 },
-                new Exercise { Id = 3, Name = "Supino Reto", Description = "Descrição do exercício", ImagePath = "images/exe3.png", VideoPath = "videos/execucao.mp4", UserId = 3 },
-                new Exercise { Id = 4, Name = "Puxada Aberta", Description = "Descrição do exercício", ImagePath = "images/exe4.png", VideoPath = "videos/execucao.mp4", UserId = 3 },
-                new Exercise { Id = 5, Name = "Levantamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe5.png", VideoPath = "videos/execucao.mp4", UserId = 4 }
+                new Exercise { Id = 1, Name = "Agachamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe2.png", VideoPath = "videos/execucao.mp4" },
+                new Exercise { Id = 2, Name = "Rosca Concentrada", Description = "Descrição do exercício", ImagePath = "images/exe.png", VideoPath = "videos/execucao.mp4" },
+                new Exercise { Id = 3, Name = "Supino Reto", Description = "Descrição do exercício", ImagePath = "images/exe3.png", VideoPath = "videos/execucao.mp4" },
+                new Exercise { Id = 4, Name = "Puxada Aberta", Description = "Descrição do exercício", ImagePath = "images/exe4.png", VideoPath = "videos/execucao.mp4" },
+                new Exercise { Id = 5, Name = "Levantamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe5.png", VideoPath = "videos/execucao.mp4" }
             );
 
             modelBuilder.Entity<Session>().HasData(

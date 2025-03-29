@@ -21,13 +21,12 @@ namespace olympo_webapi.Infrastructure
 
 		public async Task<List<Exercise>> GetAsync()
 		{
-			return await _context.Exercises.Include(e => e.Sessions).ToListAsync();
+			return await _context.Exercises.ToListAsync();
 		}
 
 		public async Task<Exercise?> GetByIdAsync(int id)
 		{
-			return await _context.Exercises.Include(e => e.Sessions)
-				.FirstOrDefaultAsync(e => e.Id == id);
+			return await _context.Exercises.FirstOrDefaultAsync(e => e.Id == id);
 		}
 
 		public async Task UpdateAsync(Exercise exercise)
@@ -58,7 +57,7 @@ namespace olympo_webapi.Infrastructure
 
 		public Task<IEnumerable<Exercise>> GetAsync(Func<Exercise, bool> predicate)
 		{
-			return Task.FromResult(_context.Exercises.Include(e => e.Sessions).AsEnumerable().Where(predicate));
+			return Task.FromResult(_context.Exercises.AsEnumerable().Where(predicate));
 		}
 	}
 }

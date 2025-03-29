@@ -30,7 +30,9 @@ namespace olympo_webapi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
@@ -43,17 +45,12 @@ namespace olympo_webapi.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("integer");
-
                     b.Property<string>("VideoPath")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Exercises");
 
@@ -64,7 +61,6 @@ namespace olympo_webapi.Migrations
                             Description = "Descrição do exercício",
                             ImagePath = "images/exe2.png",
                             Name = "Agachamento Terra",
-                            UserId = 3,
                             VideoPath = "videos/execucao.mp4"
                         },
                         new
@@ -73,7 +69,6 @@ namespace olympo_webapi.Migrations
                             Description = "Descrição do exercício",
                             ImagePath = "images/exe.png",
                             Name = "Rosca Concentrada",
-                            UserId = 4,
                             VideoPath = "videos/execucao.mp4"
                         },
                         new
@@ -82,7 +77,6 @@ namespace olympo_webapi.Migrations
                             Description = "Descrição do exercício",
                             ImagePath = "images/exe3.png",
                             Name = "Supino Reto",
-                            UserId = 3,
                             VideoPath = "videos/execucao.mp4"
                         },
                         new
@@ -91,7 +85,6 @@ namespace olympo_webapi.Migrations
                             Description = "Descrição do exercício",
                             ImagePath = "images/exe4.png",
                             Name = "Puxada Aberta",
-                            UserId = 3,
                             VideoPath = "videos/execucao.mp4"
                         },
                         new
@@ -100,7 +93,6 @@ namespace olympo_webapi.Migrations
                             Description = "Descrição do exercício",
                             ImagePath = "images/exe5.png",
                             Name = "Levantamento Terra",
-                            UserId = 4,
                             VideoPath = "videos/execucao.mp4"
                         });
                 });
@@ -114,21 +106,18 @@ namespace olympo_webapi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DayOfWeek")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ExerciseId")
+                    b.Property<int?>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SessionId")
+                    b.Property<int?>("SessionId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
 
                     b.ToTable("ExerciseDays");
 
@@ -296,7 +285,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Admin",
-                            Password = "AQAAAAIAAYagAAAAEMlYThVyOa5W1NWU3FdZAMXdSQycEU5cpvd3j0sQwZzawuv0C8dDj5jRG+7IrH/mWQ==",
+                            Password = "AQAAAAIAAYagAAAAEI3SsrdkTuBXSX+kNfn9mee9H2mCo/6GH/hwbzkQZ7dIsm6gac7/Rqti962BuTmHTA==",
                             Type = "Administrador"
                         },
                         new
@@ -306,7 +295,7 @@ namespace olympo_webapi.Migrations
                             Email = "jose@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "José",
-                            Password = "AQAAAAIAAYagAAAAECxGMqRRRInmQyfEgq6wB1xaosd+kB6qLnClfZevHFi6QEXTgl79i+1pdwaVu/Yxvw==",
+                            Password = "AQAAAAIAAYagAAAAEFcO/c5L/aBDvJkheMDWUMMf0osrm9Rq4TlVb7vg/TsFY246SuehhgLeQ5jUhEvBqw==",
                             Type = "Professor"
                         },
                         new
@@ -316,7 +305,7 @@ namespace olympo_webapi.Migrations
                             Email = "maria@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Maria",
-                            Password = "AQAAAAIAAYagAAAAEIlCw2pIoqVlhW2QXFijk2jmOEdVy4ZI3oQjjfeXIksqcVBGkC5nFET71sy+4sWZtA==",
+                            Password = "AQAAAAIAAYagAAAAENDHYIjGxteSv0g838/UNlD/ouGg5jIn3lYLc06JZgehoLvaUatgzeQ3bk7xvzd/zw==",
                             Type = "Aluno"
                         },
                         new
@@ -326,50 +315,27 @@ namespace olympo_webapi.Migrations
                             Email = "joao@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "João",
-                            Password = "AQAAAAIAAYagAAAAEOiiFlwg+6y/M6fWsYs4FtAasDgmveVNkyRdrsKwWVhGPb2dwsI2gNyqsh6jS/9ZPQ==",
+                            Password = "AQAAAAIAAYagAAAAEDAXQlUDf+Pth6Xn07bgCHGnjI98NxcSQDATc/1rsZdgADXwa+gThUIAvO/riHQ09A==",
                             Type = "Aluno"
                         });
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Exercise", b =>
                 {
-                    b.HasOne("olympo_webapi.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("olympo_webapi.Models.User", null)
                         .WithMany("Exercises")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("olympo_webapi.Models.ExerciseDay", b =>
-                {
-                    b.HasOne("olympo_webapi.Models.Exercise", null)
-                        .WithMany("ExerciseDays")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.Session", b =>
                 {
                     b.HasOne("olympo_webapi.Models.Exercise", "Exercise")
-                        .WithMany("Sessions")
+                        .WithMany()
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Exercise");
-                });
-
-            modelBuilder.Entity("olympo_webapi.Models.Exercise", b =>
-                {
-                    b.Navigation("ExerciseDays");
-
-                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.User", b =>

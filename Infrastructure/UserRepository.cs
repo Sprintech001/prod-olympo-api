@@ -27,8 +27,6 @@ namespace olympo_webapi.Infrastructure
 		{
 			return await _context.Users
 				.AsNoTracking()
-				.Include(u => u.Exercises)
-					.ThenInclude(e => e.Sessions) 
 				.ToListAsync();
 		}
 
@@ -36,8 +34,6 @@ namespace olympo_webapi.Infrastructure
 		{
 			return await _context.Users
 				.AsNoTracking()
-				.Include(u => u.Exercises) 
-					.ThenInclude(e => e.Sessions) 
 				.FirstOrDefaultAsync(u => u.Id == id);
 		}
 
@@ -45,8 +41,6 @@ namespace olympo_webapi.Infrastructure
 		{
 			return await _context.Users
 				.AsNoTracking()
-				.Include(u => u.Exercises) 
-					.ThenInclude(e => e.Sessions) 
 				.FirstOrDefaultAsync(u => u.Email == email);
 		}
 

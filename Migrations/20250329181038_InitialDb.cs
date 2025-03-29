@@ -14,6 +14,22 @@ namespace olympo_webapi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ExerciseDays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ExerciseId = table.Column<int>(type: "integer", nullable: true),
+                    DayOfWeek = table.Column<string>(type: "text", nullable: true),
+                    SessionId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseDays", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -38,11 +54,10 @@ namespace olympo_webapi.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     ImagePath = table.Column<string>(type: "text", nullable: true),
                     VideoPath = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
-                    UserId1 = table.Column<int>(type: "integer", nullable: true)
+                    UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,35 +66,7 @@ namespace olympo_webapi.Migrations
                         name: "FK_Exercises_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Exercises_Users_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "Users",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ExerciseDays",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
-                    DayOfWeek = table.Column<string>(type: "text", nullable: false),
-                    SessionId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExerciseDays", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExerciseDays_Exercises_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,29 +93,6 @@ namespace olympo_webapi.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "CPF", "Email", "ImagePath", "Name", "Password", "Type" },
-                values: new object[,]
-                {
-                    { 1, "123.456.789-01", "adm@gmail.com", "defaultphoto.jpg", "Admin", "AQAAAAIAAYagAAAAEMlYThVyOa5W1NWU3FdZAMXdSQycEU5cpvd3j0sQwZzawuv0C8dDj5jRG+7IrH/mWQ==", "Administrador" },
-                    { 2, "987.654.321-09", "jose@gmail.com", "defaultphoto.jpg", "José", "AQAAAAIAAYagAAAAECxGMqRRRInmQyfEgq6wB1xaosd+kB6qLnClfZevHFi6QEXTgl79i+1pdwaVu/Yxvw==", "Professor" },
-                    { 3, "111.222.333-44", "maria@gmail.com", "defaultphoto.jpg", "Maria", "AQAAAAIAAYagAAAAEIlCw2pIoqVlhW2QXFijk2jmOEdVy4ZI3oQjjfeXIksqcVBGkC5nFET71sy+4sWZtA==", "Aluno" },
-                    { 4, "555.666.777-88", "joao@gmail.com", "defaultphoto.jpg", "João", "AQAAAAIAAYagAAAAEOiiFlwg+6y/M6fWsYs4FtAasDgmveVNkyRdrsKwWVhGPb2dwsI2gNyqsh6jS/9ZPQ==", "Aluno" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Exercises",
-                columns: new[] { "Id", "Description", "ImagePath", "Name", "UserId", "UserId1", "VideoPath" },
-                values: new object[,]
-                {
-                    { 1, "Descrição do exercício", "images/exe2.png", "Agachamento Terra", 3, null, "videos/execucao.mp4" },
-                    { 2, "Descrição do exercício", "images/exe.png", "Rosca Concentrada", 4, null, "videos/execucao.mp4" },
-                    { 3, "Descrição do exercício", "images/exe3.png", "Supino Reto", 3, null, "videos/execucao.mp4" },
-                    { 4, "Descrição do exercício", "images/exe4.png", "Puxada Aberta", 3, null, "videos/execucao.mp4" },
-                    { 5, "Descrição do exercício", "images/exe5.png", "Levantamento Terra", 4, null, "videos/execucao.mp4" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "ExerciseDays",
                 columns: new[] { "Id", "DayOfWeek", "ExerciseId", "SessionId", "UserId" },
                 values: new object[,]
@@ -138,6 +102,29 @@ namespace olympo_webapi.Migrations
                     { 3, "Quarta", 3, 3, 3 },
                     { 4, "Domingo", 4, 4, 3 },
                     { 5, "Segunda", 5, 5, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Exercises",
+                columns: new[] { "Id", "Description", "ImagePath", "Name", "UserId", "VideoPath" },
+                values: new object[,]
+                {
+                    { 1, "Descrição do exercício", "images/exe2.png", "Agachamento Terra", null, "videos/execucao.mp4" },
+                    { 2, "Descrição do exercício", "images/exe.png", "Rosca Concentrada", null, "videos/execucao.mp4" },
+                    { 3, "Descrição do exercício", "images/exe3.png", "Supino Reto", null, "videos/execucao.mp4" },
+                    { 4, "Descrição do exercício", "images/exe4.png", "Puxada Aberta", null, "videos/execucao.mp4" },
+                    { 5, "Descrição do exercício", "images/exe5.png", "Levantamento Terra", null, "videos/execucao.mp4" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CPF", "Email", "ImagePath", "Name", "Password", "Type" },
+                values: new object[,]
+                {
+                    { 1, "123.456.789-01", "adm@gmail.com", "defaultphoto.jpg", "Admin", "AQAAAAIAAYagAAAAEI3SsrdkTuBXSX+kNfn9mee9H2mCo/6GH/hwbzkQZ7dIsm6gac7/Rqti962BuTmHTA==", "Administrador" },
+                    { 2, "987.654.321-09", "jose@gmail.com", "defaultphoto.jpg", "José", "AQAAAAIAAYagAAAAEFcO/c5L/aBDvJkheMDWUMMf0osrm9Rq4TlVb7vg/TsFY246SuehhgLeQ5jUhEvBqw==", "Professor" },
+                    { 3, "111.222.333-44", "maria@gmail.com", "defaultphoto.jpg", "Maria", "AQAAAAIAAYagAAAAENDHYIjGxteSv0g838/UNlD/ouGg5jIn3lYLc06JZgehoLvaUatgzeQ3bk7xvzd/zw==", "Aluno" },
+                    { 4, "555.666.777-88", "joao@gmail.com", "defaultphoto.jpg", "João", "AQAAAAIAAYagAAAAEDAXQlUDf+Pth6Xn07bgCHGnjI98NxcSQDATc/1rsZdgADXwa+gThUIAvO/riHQ09A==", "Aluno" }
                 });
 
             migrationBuilder.InsertData(
@@ -153,19 +140,9 @@ namespace olympo_webapi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseDays_ExerciseId",
-                table: "ExerciseDays",
-                column: "ExerciseId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Exercises_UserId",
                 table: "Exercises",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exercises_UserId1",
-                table: "Exercises",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sessions_ExerciseId",

@@ -48,21 +48,6 @@ namespace olympo_webapi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{userId}/exercises")]
-        public async Task<ActionResult<IEnumerable<Exercise>>> GetExercisesByUserId(int userId)
-        {
-            var user = await _userRepository.GetByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"User with ID {userId} not found.");
-            }
-
-            var exercises = await _exerciseRepository.GetAsync();
-            var userExercises = exercises.Where(e => e.UserId == userId).ToList();
-
-            return Ok(userExercises);
-        }
-
         [HttpGet("type")]
         public async Task<ActionResult<IEnumerable<User>>> GetUserType([FromQuery] int type)
         {
@@ -174,19 +159,5 @@ namespace olympo_webapi.Controllers
             return NoContent();
         }
 
-        [HttpPost("{userId}/exercises")]
-        public async Task<IActionResult> AddExerciseToUser(int userId, [FromBody] Exercise exercise)
-        {
-            var user = await _userRepository.GetByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"User with ID {userId} not found.");
-            }
-
-            exercise.UserId = userId;
-            await _exerciseRepository.AddAsync(exercise);
-
-            return Ok(exercise);
-        }
     }
 }
