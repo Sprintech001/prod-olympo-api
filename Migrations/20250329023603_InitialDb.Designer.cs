@@ -11,7 +11,7 @@ using olympo_webapi.Infrastructure;
 namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20250328192319_InitialDb")]
+    [Migration("20250329023603_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -64,7 +64,7 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.",
+                            Description = "Descrição do exercício",
                             ImagePath = "images/exe2.png",
                             Name = "Agachamento Terra",
                             UserId = 3,
@@ -73,7 +73,7 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.",
+                            Description = "Descrição do exercício",
                             ImagePath = "images/exe.png",
                             Name = "Rosca Concentrada",
                             UserId = 4,
@@ -82,7 +82,7 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 3,
-                            Description = "Deite-se em um banco plano, segure a barra com uma pegada média e abaixe-a até tocar levemente o peito. Empurre a barra para cima até que os braços estejam completamente estendidos.",
+                            Description = "Descrição do exercício",
                             ImagePath = "images/exe3.png",
                             Name = "Supino Reto",
                             UserId = 3,
@@ -91,7 +91,7 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 4,
-                            Description = "Sente-se no aparelho de puxada e segure a barra com uma pegada ampla. Puxe a barra em direção ao peito enquanto mantém a coluna reta, contraindo os músculos das costas. Retorne à posição inicial de forma controlada.",
+                            Description = "Descrição do exercício",
                             ImagePath = "images/exe4.png",
                             Name = "Puxada Aberta",
                             UserId = 3,
@@ -100,7 +100,7 @@ namespace olympo_webapi.Migrations
                         new
                         {
                             Id = 5,
-                            Description = "Fique em pé com os pés na largura dos ombros, segure a barra com uma pegada mista e mantenha a coluna reta. Levante a barra do chão até a altura do quadril, mantendo o controle, e abaixe-a lentamente.",
+                            Description = "Descrição do exercício",
                             ImagePath = "images/exe5.png",
                             Name = "Levantamento Terra",
                             UserId = 4,
@@ -299,7 +299,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Admin",
-                            Password = "AQAAAAIAAYagAAAAELOauLEx5838Mb4F+WTCsOCBB5zL+o7qmdopJJ97fkBkqhtFObBtoX3BWZ3BiwaQgA==",
+                            Password = "AQAAAAIAAYagAAAAEMlYThVyOa5W1NWU3FdZAMXdSQycEU5cpvd3j0sQwZzawuv0C8dDj5jRG+7IrH/mWQ==",
                             Type = "Administrador"
                         },
                         new
@@ -309,27 +309,27 @@ namespace olympo_webapi.Migrations
                             Email = "jose@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "José",
-                            Password = "AQAAAAIAAYagAAAAELTcw3+vd1nShtMWmG5kRT8RKdEi8lgnPua/LpleLBwyxrqy1Zrc5BxYCne4L2RM4w==",
+                            Password = "AQAAAAIAAYagAAAAECxGMqRRRInmQyfEgq6wB1xaosd+kB6qLnClfZevHFi6QEXTgl79i+1pdwaVu/Yxvw==",
                             Type = "Professor"
                         },
                         new
                         {
                             Id = 3,
-                            CPF = "123.456.789-01",
+                            CPF = "111.222.333-44",
                             Email = "maria@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Maria",
-                            Password = "AQAAAAIAAYagAAAAEHCqdH8dR4A1XlnZgMk478bXWJOxnqqu5qL5v1o1pFjUuM11mNTTIC+JJVz1R5Bbig==",
+                            Password = "AQAAAAIAAYagAAAAEIlCw2pIoqVlhW2QXFijk2jmOEdVy4ZI3oQjjfeXIksqcVBGkC5nFET71sy+4sWZtA==",
                             Type = "Aluno"
                         },
                         new
                         {
                             Id = 4,
-                            CPF = "123.456.789-01",
+                            CPF = "555.666.777-88",
                             Email = "joao@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "João",
-                            Password = "AQAAAAIAAYagAAAAEMJpw/kRaww7XRxYFgxkTuxL3u7l5JNDYVNXpc/9FhdQkdaM87WK1RySjkmhzrEEDQ==",
+                            Password = "AQAAAAIAAYagAAAAEOiiFlwg+6y/M6fWsYs4FtAasDgmveVNkyRdrsKwWVhGPb2dwsI2gNyqsh6jS/9ZPQ==",
                             Type = "Aluno"
                         });
                 });
@@ -338,7 +338,8 @@ namespace olympo_webapi.Migrations
                 {
                     b.HasOne("olympo_webapi.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("olympo_webapi.Models.User", null)
                         .WithMany("Exercises")

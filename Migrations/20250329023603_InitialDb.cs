@@ -51,7 +51,8 @@ namespace olympo_webapi.Migrations
                         name: "FK_Exercises_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Exercises_Users_UserId1",
                         column: x => x.UserId1,
@@ -109,10 +110,10 @@ namespace olympo_webapi.Migrations
                 columns: new[] { "Id", "CPF", "Email", "ImagePath", "Name", "Password", "Type" },
                 values: new object[,]
                 {
-                    { 1, "123.456.789-01", "adm@gmail.com", "defaultphoto.jpg", "Admin", "AQAAAAIAAYagAAAAELOauLEx5838Mb4F+WTCsOCBB5zL+o7qmdopJJ97fkBkqhtFObBtoX3BWZ3BiwaQgA==", "Administrador" },
-                    { 2, "987.654.321-09", "jose@gmail.com", "defaultphoto.jpg", "José", "AQAAAAIAAYagAAAAELTcw3+vd1nShtMWmG5kRT8RKdEi8lgnPua/LpleLBwyxrqy1Zrc5BxYCne4L2RM4w==", "Professor" },
-                    { 3, "123.456.789-01", "maria@gmail.com", "defaultphoto.jpg", "Maria", "AQAAAAIAAYagAAAAEHCqdH8dR4A1XlnZgMk478bXWJOxnqqu5qL5v1o1pFjUuM11mNTTIC+JJVz1R5Bbig==", "Aluno" },
-                    { 4, "123.456.789-01", "joao@gmail.com", "defaultphoto.jpg", "João", "AQAAAAIAAYagAAAAEMJpw/kRaww7XRxYFgxkTuxL3u7l5JNDYVNXpc/9FhdQkdaM87WK1RySjkmhzrEEDQ==", "Aluno" }
+                    { 1, "123.456.789-01", "adm@gmail.com", "defaultphoto.jpg", "Admin", "AQAAAAIAAYagAAAAEMlYThVyOa5W1NWU3FdZAMXdSQycEU5cpvd3j0sQwZzawuv0C8dDj5jRG+7IrH/mWQ==", "Administrador" },
+                    { 2, "987.654.321-09", "jose@gmail.com", "defaultphoto.jpg", "José", "AQAAAAIAAYagAAAAECxGMqRRRInmQyfEgq6wB1xaosd+kB6qLnClfZevHFi6QEXTgl79i+1pdwaVu/Yxvw==", "Professor" },
+                    { 3, "111.222.333-44", "maria@gmail.com", "defaultphoto.jpg", "Maria", "AQAAAAIAAYagAAAAEIlCw2pIoqVlhW2QXFijk2jmOEdVy4ZI3oQjjfeXIksqcVBGkC5nFET71sy+4sWZtA==", "Aluno" },
+                    { 4, "555.666.777-88", "joao@gmail.com", "defaultphoto.jpg", "João", "AQAAAAIAAYagAAAAEOiiFlwg+6y/M6fWsYs4FtAasDgmveVNkyRdrsKwWVhGPb2dwsI2gNyqsh6jS/9ZPQ==", "Aluno" }
                 });
 
             migrationBuilder.InsertData(
@@ -120,11 +121,11 @@ namespace olympo_webapi.Migrations
                 columns: new[] { "Id", "Description", "ImagePath", "Name", "UserId", "UserId1", "VideoPath" },
                 values: new object[,]
                 {
-                    { 1, "Use uma pegada pronada, com as palmas das mãos voltadas para o corpo, para segurar a barra. Mantenha os joelhos flexionados na posição de agachamento, a coluna ereta e alinhada, e as pernas abertas com os pés apontados para fora.", "images/exe2.png", "Agachamento Terra", 3, null, "videos/execucao.mp4" },
-                    { 2, "Sente-se em um banco e incline-se levemente, mantendo o peito erguido. Flexione o braço para levantar o halter até o ombro, pause por um segundo no topo e estenda lentamente o braço para retornar à posição inicial.", "images/exe.png", "Rosca Concentrada", 4, null, "videos/execucao.mp4" },
-                    { 3, "Deite-se em um banco plano, segure a barra com uma pegada média e abaixe-a até tocar levemente o peito. Empurre a barra para cima até que os braços estejam completamente estendidos.", "images/exe3.png", "Supino Reto", 3, null, "videos/execucao.mp4" },
-                    { 4, "Sente-se no aparelho de puxada e segure a barra com uma pegada ampla. Puxe a barra em direção ao peito enquanto mantém a coluna reta, contraindo os músculos das costas. Retorne à posição inicial de forma controlada.", "images/exe4.png", "Puxada Aberta", 3, null, "videos/execucao.mp4" },
-                    { 5, "Fique em pé com os pés na largura dos ombros, segure a barra com uma pegada mista e mantenha a coluna reta. Levante a barra do chão até a altura do quadril, mantendo o controle, e abaixe-a lentamente.", "images/exe5.png", "Levantamento Terra", 4, null, "videos/execucao.mp4" }
+                    { 1, "Descrição do exercício", "images/exe2.png", "Agachamento Terra", 3, null, "videos/execucao.mp4" },
+                    { 2, "Descrição do exercício", "images/exe.png", "Rosca Concentrada", 4, null, "videos/execucao.mp4" },
+                    { 3, "Descrição do exercício", "images/exe3.png", "Supino Reto", 3, null, "videos/execucao.mp4" },
+                    { 4, "Descrição do exercício", "images/exe4.png", "Puxada Aberta", 3, null, "videos/execucao.mp4" },
+                    { 5, "Descrição do exercício", "images/exe5.png", "Levantamento Terra", 4, null, "videos/execucao.mp4" }
                 });
 
             migrationBuilder.InsertData(

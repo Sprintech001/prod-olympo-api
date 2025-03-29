@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\olympo-webapi\\olympo-webapi\\olympo-webapi.csproj": {}
+    "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\prod-olympo-api\\olympo-webapi.csproj": {}
   },
   "projects": {
-    "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\olympo-webapi\\olympo-webapi\\olympo-webapi.csproj": {
+    "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\prod-olympo-api\\olympo-webapi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\olympo-webapi\\olympo-webapi\\olympo-webapi.csproj",
+        "projectUniqueName": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\prod-olympo-api\\olympo-webapi.csproj",
         "projectName": "olympo-webapi",
-        "projectPath": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\olympo-webapi\\olympo-webapi\\olympo-webapi.csproj",
+        "projectPath": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\prod-olympo-api\\olympo-webapi.csproj",
         "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
-        "outputPath": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\olympo-webapi\\olympo-webapi\\obj\\",
+        "outputPath": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\prod-olympo-api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
