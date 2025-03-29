@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using olympo_webapi.Models;
+using System.Linq.Expressions;
 
 namespace olympo_webapi.Infrastructure
 {
@@ -26,7 +27,7 @@ namespace olympo_webapi.Infrastructure
 		public async Task<Exercise?> GetByIdAsync(int id)
 		{
 			return await _context.Exercises.Include(e => e.Sessions)
-						.FirstOrDefaultAsync(e => e.Id == id);
+				.FirstOrDefaultAsync(e => e.Id == id);
 		}
 
 		public async Task UpdateAsync(Exercise exercise)
@@ -50,42 +51,14 @@ namespace olympo_webapi.Infrastructure
 			return await _context.Exercises.AnyAsync(e => e.Id == id);
 		}
 
-		public void Add(Exercise exercise)
+		public async Task<IEnumerable<Exercise>> GetAsync(Expression<Func<Exercise, bool>> predicate)
 		{
-			_context.Exercises.Add(exercise);
-			_context.SaveChanges();
+			return await _context.Exercises.Where(predicate).ToListAsync();
 		}
 
-		public List<Exercise> Get()
+		public Task<IEnumerable<Exercise>> GetAsync(Func<Exercise, bool> predicate)
 		{
-			return _context.Exercises.Include(e => e.Sessions).ToList();
-		}
-
-		public Exercise? GetById(int id)
-		{
-			return _context.Exercises.Include(e => e.Sessions)
-.FirstOrDefault(e => e.Id == id);
-		}
-
-		public void Update(Exercise exercise)
-		{
-			_context.Exercises.Update(exercise);
-			_context.SaveChanges();
-		}
-
-		public void Delete(int id)
-		{
-			var exercise = _context.Exercises.Find(id);
-			if (exercise != null)
-			{
-				_context.Exercises.Remove(exercise);
-				_context.SaveChanges();
-			}
-		}
-
-		public bool Exists(int id)
-		{
-			return _context.Exercises.Any(e => e.Id == id);
+			return Task.FromResult(_context.Exercises.Include(e => e.Sessions).AsEnumerable().Where(predicate));
 		}
 	}
 }
