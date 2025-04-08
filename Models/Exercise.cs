@@ -23,6 +23,9 @@ namespace olympo_webapi.Models
 
         [NotMapped]
         public IFormFile? Video { get; set; }
+
+        [JsonIgnore]
+        public ICollection<UserExercise>? Users { get; set; }
     }
 
 }

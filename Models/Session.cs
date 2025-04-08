@@ -15,7 +15,7 @@ namespace olympo_webapi.Models
         public double Breaks { get; set; }
         public double Time { get; set; }
         public int ExerciseId { get; set; }
-
+        
         [ForeignKey("ExerciseId")]
         [JsonIgnore]
         public Exercise? Exercise { get; set; }

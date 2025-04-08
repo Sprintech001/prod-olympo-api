@@ -162,20 +162,5 @@ namespace olympo_webapi.Controllers
 
             return NoContent();
         }
-
-        [HttpPost("{exerciseId}/sessions")]
-        public async Task<IActionResult> AddSessionToExercise(int exerciseId, [FromBody] Session session)
-        {
-            var exercise = await _exerciseRepository.GetByIdAsync(exerciseId);
-            if (exercise == null)
-            {
-                return NotFound($"Exercise with ID {exerciseId} not found.");
-            }
-
-            session.ExerciseId = exerciseId;
-            await _sessionRepository.AddAsync(session);
-
-            return Ok(session);
-        }
     }
 }

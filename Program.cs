@@ -14,7 +14,9 @@ builder.Services.AddDbContext<ConnectionContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
-builder.Services.AddScoped<IExerciseDayRepository, ExerciseDayRepository>();
+builder.Services.AddScoped<IGymRepository, GymRepository>();
+builder.Services.AddScoped<IGymUserRepository, GymUserRepository>();
+builder.Services.AddScoped<IUserExerciseRepository, UserExerciseRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
