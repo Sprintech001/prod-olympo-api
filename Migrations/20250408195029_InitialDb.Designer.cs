@@ -12,7 +12,7 @@ using olympo_webapi.Infrastructure;
 namespace olympo_webapi.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20250408154434_InitialDb")]
+    [Migration("20250408195029_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -182,9 +182,14 @@ namespace olympo_webapi.Migrations
                     b.Property<double>("Time")
                         .HasColumnType("double precision");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Sessions");
                 });
@@ -238,7 +243,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Admin",
-                            Password = "AQAAAAIAAYagAAAAECjeUOGjbRZ/miOwd6biQsmAX8X1vhyE55an6zk7cRm3iiF95n9PeXDmm2Z9oqTvuQ==",
+                            Password = "AQAAAAIAAYagAAAAEITz1a/77vT3ZwjAw9XZcxFPRitGSXwDvuJjK7glqQRx/GPpsO6EJKFIzKIVTagQEw==",
                             Type = "Administrador"
                         },
                         new
@@ -248,7 +253,7 @@ namespace olympo_webapi.Migrations
                             Email = "jose@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "José",
-                            Password = "AQAAAAIAAYagAAAAENfC89Rrz1qhrvw84Qi+mV9IfT+mV+w+1iGST6jnAaSuCa1+2htSTdZN5A8shMO/7g==",
+                            Password = "AQAAAAIAAYagAAAAEJOl9fQBaXVQKbgJSzw2uZYjkaF4qJpGTXPCQMo9KPV7A7JML+fMw1aibI9Svg/RZA==",
                             Type = "Professor"
                         },
                         new
@@ -258,7 +263,7 @@ namespace olympo_webapi.Migrations
                             Email = "maria@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Maria",
-                            Password = "AQAAAAIAAYagAAAAEAIF83H6XL6/hVjUwy5CjxpzVcP0GuCdSBm4hY7K9YpMZ2TYs8oRLkbsdzCKQ87eBg==",
+                            Password = "AQAAAAIAAYagAAAAEJIH5ovAp/VkhDS5IuJgynsgaiJAOFEDk9A23AH/7iijxtdGkHQ7fU9FqXfF2vsF8w==",
                             Type = "Aluno"
                         },
                         new
@@ -268,7 +273,7 @@ namespace olympo_webapi.Migrations
                             Email = "joao@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "João",
-                            Password = "AQAAAAIAAYagAAAAEMiAkOnC39G+3lPDkV09defFRelzO+LarWsalDdVGYpm3pUrD+661R0lT5wQo7gipQ==",
+                            Password = "AQAAAAIAAYagAAAAENW9ZFQMqhhtQKS4aCaGV6BxST8OrPzmTN06NsrGjf5xc01Uv0AJLVkR6YAjIxmuxw==",
                             Type = "Aluno"
                         });
                 });
@@ -313,12 +318,19 @@ namespace olympo_webapi.Migrations
             modelBuilder.Entity("olympo_webapi.Models.Session", b =>
                 {
                     b.HasOne("olympo_webapi.Models.Exercise", "Exercise")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("olympo_webapi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Exercise");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.UserExercise", b =>
@@ -342,6 +354,8 @@ namespace olympo_webapi.Migrations
 
             modelBuilder.Entity("olympo_webapi.Models.Exercise", b =>
                 {
+                    b.Navigation("Sessions");
+
                     b.Navigation("Users");
                 });
 

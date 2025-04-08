@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using olympo_webapi.Models;
 using olympo_webapi.Infrastructure;
 
@@ -9,10 +10,12 @@ namespace olympo_webapi.Controllers
     public class UserExerciseController : ControllerBase
     {
         private readonly IUserExerciseRepository _userExerciseRepository;
+        private readonly ConnectionContext _context;
 
-        public UserExerciseController(IUserExerciseRepository userExerciseRepository)
+        public UserExerciseController(IUserExerciseRepository userExerciseRepository, ConnectionContext context)
         {
             _userExerciseRepository = userExerciseRepository;
+            _context = context;
         }
 
         [HttpGet]
@@ -48,6 +51,23 @@ namespace olympo_webapi.Controllers
         {
             await _userExerciseRepository.DeleteAsync(userId, exerciseId);
             return NoContent();
+        }
+
+        [HttpGet("sessions")]
+        public async Task<IActionResult> GetSessionsByUserAndExercise(int userId, int exerciseId)
+        {
+            var sessions = await _context.Sessions
+                .Where(s => s.UserId == userId && s.ExerciseId == exerciseId)
+                .Include(s => s.Exercise)
+                .Include(s => s.User)
+                .ToListAsync();
+
+            if (sessions == null || sessions.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(sessions);
         }
     }
 }

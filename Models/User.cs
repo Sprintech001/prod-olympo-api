@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+
 using olympo_webapi.Models;
 
 namespace olympo_webapi.Models
@@ -20,6 +21,7 @@ namespace olympo_webapi.Models
 		public string? Name { get; set; }
 		public string? Email { get; set; }
 		public string? Phone { get; set; }
+		[JsonConverter(typeof(JsonStringEnumConverter))]
 		public UserType? Type { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public string? ImagePath { get; set; }

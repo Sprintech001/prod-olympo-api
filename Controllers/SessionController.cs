@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using olympo_webapi.Models;
+using olympo_webapi.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace olympo_webapi.Controllers
 {
@@ -8,10 +10,12 @@ namespace olympo_webapi.Controllers
 	public class SessionController : ControllerBase
 	{
 		private readonly ISessionRepository _sessionRepository;
+		private readonly ConnectionContext _context;
 
-		public SessionController(ISessionRepository sessionRepository)
+		public SessionController(ISessionRepository sessionRepository, ConnectionContext context)
 		{
 			_sessionRepository = sessionRepository;
+			_context = context;
 		}
 
 		[HttpGet]
@@ -28,13 +32,16 @@ namespace olympo_webapi.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Session>> GetById(int id)
+		public async Task<ActionResult<Session>> GetSessionById(int id)
 		{
-			var session = await _sessionRepository.GetByIdAsync(id);
+			var session = await _context.Sessions
+				.Include(s => s.User)
+				.Include(s => s.Exercise)
+				.FirstOrDefaultAsync(s => s.Id == id);
 
 			if (session == null)
 			{
-				return NotFound($"Session with ID {id} not found.");
+				return NotFound();
 			}
 
 			return Ok(session);
@@ -49,8 +56,10 @@ namespace olympo_webapi.Controllers
 			}
 
 			await _sessionRepository.AddAsync(session);
+			await _context.Entry(session).Reference(s => s.User).LoadAsync();
+			await _context.Entry(session).Reference(s => s.Exercise).LoadAsync();
 
-			return CreatedAtAction(nameof(GetById), new { id = session.Id }, session);
+			return CreatedAtAction(nameof(GetSessionById), new { id = session.Id }, session);
 		}
 
 		[HttpPut("{id}")]

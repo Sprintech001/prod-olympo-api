@@ -99,8 +99,17 @@ namespace olympo_webapi.Infrastructure
                 entity.Property(s => s.Repetitions).IsRequired();
                 entity.Property(s => s.Series).IsRequired();
                 entity.Property(s => s.Time).IsRequired();
+
+                entity.HasOne(s => s.Exercise)
+                    .WithMany(e => e.Sessions)
+                    .HasForeignKey(s => s.ExerciseId)
+                    .OnDelete(DeleteBehavior.Cascade); 
+
+                entity.HasOne(s => s.User)
+                    .WithMany() 
+                    .HasForeignKey(s => s.UserId)
+                    .OnDelete(DeleteBehavior.SetNull); 
             });
-        
 
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, CPF = "123.456.789-01", Name = "Admin", Type = UserType.Administrador, Email = "adm@gmail.com", ImagePath = "defaultphoto.jpg", Password = HashService.HashPassword("password") },

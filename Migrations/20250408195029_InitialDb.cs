@@ -70,29 +70,6 @@ namespace olympo_webapi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sessions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Repetitions = table.Column<int>(type: "integer", nullable: false),
-                    Series = table.Column<int>(type: "integer", nullable: false),
-                    Breaks = table.Column<double>(type: "double precision", nullable: false),
-                    Time = table.Column<double>(type: "double precision", nullable: false),
-                    ExerciseId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sessions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sessions_Exercises_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "GymUsers",
                 columns: table => new
                 {
@@ -115,6 +92,36 @@ namespace olympo_webapi.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Repetitions = table.Column<int>(type: "integer", nullable: false),
+                    Series = table.Column<int>(type: "integer", nullable: false),
+                    Breaks = table.Column<double>(type: "double precision", nullable: false),
+                    Time = table.Column<double>(type: "double precision", nullable: false),
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sessions_Exercises_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sessions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,10 +166,10 @@ namespace olympo_webapi.Migrations
                 columns: new[] { "Id", "BirthDate", "CPF", "Email", "ImagePath", "Name", "Password", "Phone", "Type" },
                 values: new object[,]
                 {
-                    { 1, null, "123.456.789-01", "adm@gmail.com", "defaultphoto.jpg", "Admin", "AQAAAAIAAYagAAAAECjeUOGjbRZ/miOwd6biQsmAX8X1vhyE55an6zk7cRm3iiF95n9PeXDmm2Z9oqTvuQ==", null, "Administrador" },
-                    { 2, null, "987.654.321-09", "jose@gmail.com", "defaultphoto.jpg", "José", "AQAAAAIAAYagAAAAENfC89Rrz1qhrvw84Qi+mV9IfT+mV+w+1iGST6jnAaSuCa1+2htSTdZN5A8shMO/7g==", null, "Professor" },
-                    { 3, null, "111.222.333-44", "maria@gmail.com", "defaultphoto.jpg", "Maria", "AQAAAAIAAYagAAAAEAIF83H6XL6/hVjUwy5CjxpzVcP0GuCdSBm4hY7K9YpMZ2TYs8oRLkbsdzCKQ87eBg==", null, "Aluno" },
-                    { 4, null, "555.666.777-88", "joao@gmail.com", "defaultphoto.jpg", "João", "AQAAAAIAAYagAAAAEMiAkOnC39G+3lPDkV09defFRelzO+LarWsalDdVGYpm3pUrD+661R0lT5wQo7gipQ==", null, "Aluno" }
+                    { 1, null, "123.456.789-01", "adm@gmail.com", "defaultphoto.jpg", "Admin", "AQAAAAIAAYagAAAAEITz1a/77vT3ZwjAw9XZcxFPRitGSXwDvuJjK7glqQRx/GPpsO6EJKFIzKIVTagQEw==", null, "Administrador" },
+                    { 2, null, "987.654.321-09", "jose@gmail.com", "defaultphoto.jpg", "José", "AQAAAAIAAYagAAAAEJOl9fQBaXVQKbgJSzw2uZYjkaF4qJpGTXPCQMo9KPV7A7JML+fMw1aibI9Svg/RZA==", null, "Professor" },
+                    { 3, null, "111.222.333-44", "maria@gmail.com", "defaultphoto.jpg", "Maria", "AQAAAAIAAYagAAAAEJIH5ovAp/VkhDS5IuJgynsgaiJAOFEDk9A23AH/7iijxtdGkHQ7fU9FqXfF2vsF8w==", null, "Aluno" },
+                    { 4, null, "555.666.777-88", "joao@gmail.com", "defaultphoto.jpg", "João", "AQAAAAIAAYagAAAAENW9ZFQMqhhtQKS4aCaGV6BxST8OrPzmTN06NsrGjf5xc01Uv0AJLVkR6YAjIxmuxw==", null, "Aluno" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -174,6 +181,11 @@ namespace olympo_webapi.Migrations
                 name: "IX_Sessions_ExerciseId",
                 table: "Sessions",
                 column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sessions_UserId",
+                table: "Sessions",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserExercises_ExerciseId",
