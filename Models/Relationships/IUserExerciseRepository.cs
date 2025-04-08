@@ -15,5 +15,6 @@ namespace olympo_webapi.Models
         Task AddAsync(UserExercise userExercise);
         Task DeleteAsync(int userId, int exerciseId);
         Task<bool> ExistsAsync(int id);
+        Task<IEnumerable<Session>> GetSessionsByUserAndExerciseAsync(int userId, int exerciseId);
     }
 }

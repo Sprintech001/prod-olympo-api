@@ -59,4 +59,12 @@ public class UserExerciseRepository : IUserExerciseRepository
     {
         return await _context.UserExercises.AnyAsync(ue => ue.Id == id);
     }
+
+    public async Task<IEnumerable<Session>> GetSessionsByUserAndExerciseAsync(int userId, int exerciseId)
+    {
+        return await _context.Sessions
+            .Where(s => s.ExerciseId == exerciseId && s.UserId == userId)
+            .ToListAsync();
+    }
+
 }
