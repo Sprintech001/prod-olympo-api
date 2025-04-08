@@ -54,30 +54,35 @@ namespace olympo_webapi.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> Put(int id, [FromBody] Session updatedSession)
+		public async Task<IActionResult> Put(int id, [FromBody] Session? updatedSession)
 		{
-			if (updatedSession == null || id != updatedSession.Id)
+			if (updatedSession == null)
 			{
-				return BadRequest("Invalid session data or mismatched ID.");
+				return BadRequest("Dados inválidos: O corpo da requisição está vazio.");
+			}
+
+			if (updatedSession.Id == null || id != updatedSession.Id)
+			{
+				return BadRequest("O ID da sessão no corpo da requisição não corresponde ao ID da URL.");
 			}
 
 			var exists = await _sessionRepository.ExistsAsync(id);
 			if (!exists)
 			{
-				return NotFound($"Session with ID {id} not found.");
+				return NotFound($"Sessão com ID {id} não encontrada.");
 			}
 
 			try
 			{
 				await _sessionRepository.UpdateAsync(updatedSession);
-
 				return NoContent();
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, $"Internal server error: {ex.Message}");
+				return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
 			}
 		}
+
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(int id)
