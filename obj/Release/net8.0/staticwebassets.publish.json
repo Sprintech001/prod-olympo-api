@@ -1,20 +1,12 @@
 {
   "Version": 1,
-  "Hash": "hpTM9Vd+vTq19FAemlAC2ctdbPdh9iUs8Sk9b/vVPKw=",
+  "Hash": "04sat33F8jovHGAJID+NJTmvE0BletqLg38jF6wLCQI=",
   "Source": "olympo-webapi",
   "BasePath": "_content/olympo-webapi",
   "Mode": "Default",
   "ManifestType": "Publish",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "olympo-webapi\\wwwroot",
-      "Source": "olympo-webapi",
-      "ContentRoot": "D:\\SSD\\Sprintech\\projects\\Olympo\\front\\olympo-webapi\\olympo-webapi\\wwwroot\\",
-      "BasePath": "_content/olympo-webapi",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": [
     {
       "Identity": "C:\\Users\\thoma\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\8.0.0\\staticwebassets\\V5\\css\\site.css",
