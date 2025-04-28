@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using olympo_webapi.Infrastructure;
-using olympo_webapi.Models;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using olympo_webapi.Models;
 using olympo_webapi.Services;
 
 namespace olympo_webapi.Infrastructure
@@ -10,24 +9,33 @@ namespace olympo_webapi.Infrastructure
     {
         public DbSet<Gym> Gyms { get; set; }
         public DbSet<GymUser> GymUsers { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<UserExercise> UserExercises { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ConnectionContext(DbContextOptions<ConnectionContext> options)
-        : base(options)
+            : base(options)
         {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                    .EnableSensitiveDataLogging() 
+                    .LogTo(Console.WriteLine, 
+                           new[] { RelationalEventId.CommandExecuted }, 
+                           LogLevel.Information);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().ToTable("ConnectionUsers");
 
             modelBuilder.Entity<Gym>(entity =>
             {
@@ -49,22 +57,12 @@ namespace olympo_webapi.Infrastructure
                 entity.HasOne(gu => gu.User)
                     .WithMany(u => u.Gyms)
                     .HasForeignKey(gu => gu.UserId)
-                    .OnDelete(DeleteBehavior.Cascade); 
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(gu => gu.Gym)
                     .WithMany(g => g.Users)
                     .HasForeignKey(gu => gu.GymId)
-                    .OnDelete(DeleteBehavior.Cascade); 
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(u => u.Id).ValueGeneratedOnAdd();
-                entity.HasKey(u => u.Id);
-                entity.Property(u => u.Name).IsRequired().HasMaxLength(100);
-                entity.Property(u => u.Email).IsRequired().HasMaxLength(100);
-                entity.Property(u => u.Password).IsRequired();
-                entity.Property(u => u.Type).HasConversion<string>();
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<UserExercise>(entity =>
@@ -74,12 +72,12 @@ namespace olympo_webapi.Infrastructure
                 entity.HasOne(ue => ue.User)
                     .WithMany(u => u.Exercises)
                     .HasForeignKey(ue => ue.UserId)
-                    .OnDelete(DeleteBehavior.Cascade); 
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(ue => ue.Exercise)
                     .WithMany(e => e.Users)
                     .HasForeignKey(ue => ue.ExerciseId)
-                    .OnDelete(DeleteBehavior.Cascade); 
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Exercise>(entity =>
@@ -103,19 +101,19 @@ namespace olympo_webapi.Infrastructure
                 entity.HasOne(s => s.Exercise)
                     .WithMany(e => e.Sessions)
                     .HasForeignKey(s => s.ExerciseId)
-                    .OnDelete(DeleteBehavior.Cascade); 
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(s => s.User)
-                    .WithMany() 
+                    .WithMany()
                     .HasForeignKey(s => s.UserId)
-                    .OnDelete(DeleteBehavior.SetNull); 
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, CPF = "123.456.789-01", Name = "Admin", Type = UserType.Administrador, Email = "adm@gmail.com", ImagePath = "defaultphoto.jpg", Password = HashService.HashPassword("password") },
-                new User { Id = 2, CPF = "987.654.321-09", Name = "José", Type = UserType.Professor, Email = "jose@gmail.com", ImagePath = "defaultphoto.jpg", Password = HashService.HashPassword("password") },
-                new User { Id = 3, CPF = "111.222.333-44", Name = "Maria", Type = UserType.Aluno, Email = "maria@gmail.com", ImagePath = "defaultphoto.jpg", Password = HashService.HashPassword("password") },
-                new User { Id = 4, CPF = "555.666.777-88", Name = "João", Type = UserType.Aluno, Email = "joao@gmail.com", ImagePath = "defaultphoto.jpg", Password = HashService.HashPassword("password") }
+                new User { Id = 1, CPF = "123.456.789-01", Name = "Admin", Type = UserType.Administrador, Email = "adm@gmail.com", ImagePath = "defaultphoto.jpg" },
+                new User { Id = 2, CPF = "987.654.321-09", Name = "José", Type = UserType.Professor, Email = "jose@gmail.com", ImagePath = "defaultphoto.jpg" },
+                new User { Id = 3, CPF = "111.222.333-44", Name = "Maria", Type = UserType.Aluno, Email = "maria@gmail.com", ImagePath = "defaultphoto.jpg" },
+                new User { Id = 4, CPF = "555.666.777-88", Name = "João", Type = UserType.Aluno, Email = "joao@gmail.com", ImagePath = "defaultphoto.jpg" }
             );
 
             modelBuilder.Entity<Exercise>().HasData(
@@ -126,6 +124,5 @@ namespace olympo_webapi.Infrastructure
                 new Exercise { Id = 5, Name = "Levantamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe5.png", VideoPath = "videos/execucao.mp4" }
             );
         }
-
     }
 }

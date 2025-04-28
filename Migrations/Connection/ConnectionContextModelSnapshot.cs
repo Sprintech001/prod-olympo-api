@@ -2,25 +2,22 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using olympo_webapi.Infrastructure;
 
 #nullable disable
 
-namespace olympo_webapi.Migrations
+namespace olympo_webapi.Migrations.Connection
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20250408195029_InitialDb")]
-    partial class InitialDb
+    partial class ConnectionContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -108,6 +105,9 @@ namespace olympo_webapi.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -210,30 +210,24 @@ namespace olympo_webapi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("text");
+                    b.Property<int?>("Type")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("ConnectionUsers", (string)null);
 
                     b.HasData(
                         new
@@ -243,8 +237,7 @@ namespace olympo_webapi.Migrations
                             Email = "adm@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Admin",
-                            Password = "AQAAAAIAAYagAAAAEITz1a/77vT3ZwjAw9XZcxFPRitGSXwDvuJjK7glqQRx/GPpsO6EJKFIzKIVTagQEw==",
-                            Type = "Administrador"
+                            Type = 0
                         },
                         new
                         {
@@ -253,8 +246,7 @@ namespace olympo_webapi.Migrations
                             Email = "jose@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "José",
-                            Password = "AQAAAAIAAYagAAAAEJOl9fQBaXVQKbgJSzw2uZYjkaF4qJpGTXPCQMo9KPV7A7JML+fMw1aibI9Svg/RZA==",
-                            Type = "Professor"
+                            Type = 1
                         },
                         new
                         {
@@ -263,8 +255,7 @@ namespace olympo_webapi.Migrations
                             Email = "maria@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "Maria",
-                            Password = "AQAAAAIAAYagAAAAEJIH5ovAp/VkhDS5IuJgynsgaiJAOFEDk9A23AH/7iijxtdGkHQ7fU9FqXfF2vsF8w==",
-                            Type = "Aluno"
+                            Type = 2
                         },
                         new
                         {
@@ -273,8 +264,7 @@ namespace olympo_webapi.Migrations
                             Email = "joao@gmail.com",
                             ImagePath = "defaultphoto.jpg",
                             Name = "João",
-                            Password = "AQAAAAIAAYagAAAAENW9ZFQMqhhtQKS4aCaGV6BxST8OrPzmTN06NsrGjf5xc01Uv0AJLVkR6YAjIxmuxw==",
-                            Type = "Aluno"
+                            Type = 2
                         });
                 });
 
