@@ -4,6 +4,8 @@ using olympo_webapi.Infrastructure;
 using olympo_webapi.Models;
 using olympo_webapi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace olympo_webapi.Controllers
 {
@@ -14,25 +16,50 @@ namespace olympo_webapi.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IFileUploadService _fileUploadService;
+        private readonly ApplicationDbContext _context;
 
-        public UserController(IUserRepository userRepository, IExerciseRepository exerciseRepository, IFileUploadService fileUploadService)
+        public UserController(IUserRepository userRepository, IExerciseRepository exerciseRepository, IFileUploadService fileUploadService, ApplicationDbContext context)
         {
             _userRepository = userRepository;
             _exerciseRepository = exerciseRepository;
             _fileUploadService = fileUploadService;
+            _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        // [Authorize]
+        public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userRepository.GetAsync();
-
-            if (users == null || !users.Any())
+            try
             {
-                return NotFound("No users found.");
-            }
+                var users = await _context.Users
+                    .Select(u => new
+                    {
+                        u.Id,
+                        u.Name,
+                        u.Email,
+                        u.CPF,
+                        u.Phone,
+                        u.Type,
+                        u.BirthDate,
+                        u.ImagePath,
+                        Identity = _context.Users
+                            .Where(iu => iu.Id == u.Id)
+                            .Select(iu => new
+                            {
+                                iu.Id,
+                                iu.Email
+                            })
+                            .FirstOrDefault()
+                    })
+                    .ToListAsync();
 
-            return Ok(users);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Erro interno no servidor.", details = ex.Message });
+            }
         }
 
         [HttpGet("{id}")]
@@ -101,7 +128,6 @@ namespace olympo_webapi.Controllers
                     Email = input.Email,
                     ImagePath = imagePath,
                     Type = input.Type,
-                    Password = HashService.HashPassword(input.Password),
                 };
 
                 await _userRepository.AddAsync(user);
@@ -133,7 +159,6 @@ namespace olympo_webapi.Controllers
                 existingUser.Name = updatedUser.Name;
                 existingUser.Email = updatedUser.Email;
                 existingUser.Image = updatedUser.Image;
-                existingUser.Password = updatedUser.Password;
 
                 await _userRepository.UpdateAsync(existingUser);
 
@@ -159,5 +184,70 @@ namespace olympo_webapi.Controllers
             return NoContent();
         }
 
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetLoggedUser()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                    return Unauthorized("Usuário não autenticado.");
+
+                var applicationUser = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+
+                if (applicationUser == null)
+                    return NotFound("Usuário não encontrado.");
+
+                return Ok(applicationUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Erro interno no servidor.", details = ex.Message });
+            }
+        }
+
+        [HttpPut("me")]
+        [Authorize]
+        public async Task<IActionResult> UpdateLoggedUser([FromForm] User updatedUser, IFormFile? image)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                    return Unauthorized("Usuário não autenticado.");
+
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+                if (existingUser == null)
+                    return NotFound("Usuário não encontrado.");
+
+                existingUser.Name = updatedUser.Name ?? existingUser.Name;
+                existingUser.Email = updatedUser.Email ?? existingUser.Email;
+                existingUser.CPF = updatedUser.CPF ?? existingUser.CPF;
+                existingUser.Phone = updatedUser.Phone ?? existingUser.Phone;
+                existingUser.BirthDate = updatedUser.BirthDate ?? existingUser.BirthDate;
+
+                // Gerencia o upload da imagem
+                if (image != null)
+                {
+                    var fileUploadService = new FileUploadService();
+                    var imagePath = await fileUploadService.UploadFileAsync(image);
+                    if (imagePath != null)
+                    {
+                        existingUser.ImagePath = $"/Storage/{imagePath}";
+                    }
+                }
+
+                _context.Users.Update(existingUser);
+                await _context.SaveChangesAsync();
+
+                return Ok("Informações atualizadas com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Erro interno no servidor.", details = ex.Message });
+            }
+        }
     }
 }
