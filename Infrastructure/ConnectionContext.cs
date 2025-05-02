@@ -108,14 +108,6 @@ namespace olympo_webapi.Infrastructure
                     .HasForeignKey(s => s.UserId)
                     .OnDelete(DeleteBehavior.SetNull);
             });
-
-            modelBuilder.Entity<Exercise>().HasData(
-                new Exercise { Id = 1, Name = "Agachamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe2.png", VideoPath = "videos/execucao.mp4" },
-                new Exercise { Id = 2, Name = "Rosca Concentrada", Description = "Descrição do exercício", ImagePath = "images/exe.png", VideoPath = "videos/execucao.mp4" },
-                new Exercise { Id = 3, Name = "Supino Reto", Description = "Descrição do exercício", ImagePath = "images/exe3.png", VideoPath = "videos/execucao.mp4" },
-                new Exercise { Id = 4, Name = "Puxada Aberta", Description = "Descrição do exercício", ImagePath = "images/exe4.png", VideoPath = "videos/execucao.mp4" },
-                new Exercise { Id = 5, Name = "Levantamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe5.png", VideoPath = "videos/execucao.mp4" }
-            );
         }
     }
 }

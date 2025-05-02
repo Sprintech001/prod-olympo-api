@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Linq;
+using olympo_webapi.Services;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -17,13 +19,16 @@ public class AuthController : ControllerBase
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IFileUploadService _fileUploadService;
+
     private readonly ApplicationDbContext _context;
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, ILogger<AuthController> logger)
+    public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, IFileUploadService fileUploadService, ILogger<AuthController> logger)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _fileUploadService = fileUploadService;
         _context = context;
         _logger = logger;
     }
@@ -268,8 +273,28 @@ public class AuthController : ControllerBase
         }
     }
 
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadFile(IFormFile file)
+    {
+        try
+        {
+            var filePath = await _fileUploadService.UploadFileAsync(file);
+            return Ok(new { filePath });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro: {ex}");
+            return StatusCode(500, "An error occurred while processing the request. ==> " + ex.Message);
+        }
+    }
+    
+
     [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateUserData(int? id, [FromBody] UpdateUserRequest request)
+    public async Task<IActionResult> UpdateUserData(int? id, [FromBody] UpdateUserRequest request, [FromForm] IFormFile? image)
     {
         try 
         {
@@ -307,6 +332,26 @@ public class AuthController : ControllerBase
                     return BadRequest("Erro ao atualizar a senha: " + string.Join(", ", passwordResult.Errors.Select(e => e.Description)));
             }
 
+            if (image != null)
+            {
+                try
+                {
+                    var uploadedImagePath = await _fileUploadService.UploadFileAsync(image);
+                    if (!string.IsNullOrEmpty(uploadedImagePath))
+                    {
+                        user.ImagePath = uploadedImagePath;
+                    }
+                    else
+                    {
+                        return BadRequest("Falha ao fazer upload da imagem.");
+                    }
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return BadRequest($"Erro ao fazer upload da imagem: {ex.Message}");
+                }
+            }
+
             var identityResult = await _userManager.UpdateAsync(appUser);
             if (!identityResult.Succeeded)
                 return BadRequest("Erro ao atualizar os dados de login: " + string.Join(", ", identityResult.Errors.Select(e => e.Description)));
@@ -328,7 +373,6 @@ public class AuthController : ControllerBase
             await _context.SaveChangesAsync();
 
             return Ok("Dados atualizados com sucesso.");
-
         }
         catch (Exception ex)
         {
