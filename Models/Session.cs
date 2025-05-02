@@ -6,7 +6,8 @@ namespace olympo_webapi.Models
 {
     public class Session
     {
-		internal int Day;
+        [JsonInclude]
+        public int Day { get; set; }
 
 		[Key]
         public int Id { get; set; }

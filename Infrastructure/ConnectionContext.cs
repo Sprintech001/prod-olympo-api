@@ -60,7 +60,7 @@ namespace olympo_webapi.Infrastructure
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(gu => gu.Gym)
-                    .WithMany(g => g.Users)
+                    .WithMany(g => g.GymUsers)
                     .HasForeignKey(gu => gu.GymId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
@@ -108,13 +108,6 @@ namespace olympo_webapi.Infrastructure
                     .HasForeignKey(s => s.UserId)
                     .OnDelete(DeleteBehavior.SetNull);
             });
-
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, CPF = "123.456.789-01", Name = "Admin", Type = UserType.Administrador, Email = "adm@gmail.com", ImagePath = "defaultphoto.jpg" },
-                new User { Id = 2, CPF = "987.654.321-09", Name = "José", Type = UserType.Professor, Email = "jose@gmail.com", ImagePath = "defaultphoto.jpg" },
-                new User { Id = 3, CPF = "111.222.333-44", Name = "Maria", Type = UserType.Aluno, Email = "maria@gmail.com", ImagePath = "defaultphoto.jpg" },
-                new User { Id = 4, CPF = "555.666.777-88", Name = "João", Type = UserType.Aluno, Email = "joao@gmail.com", ImagePath = "defaultphoto.jpg" }
-            );
 
             modelBuilder.Entity<Exercise>().HasData(
                 new Exercise { Id = 1, Name = "Agachamento Terra", Description = "Descrição do exercício", ImagePath = "images/exe2.png", VideoPath = "videos/execucao.mp4" },

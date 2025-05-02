@@ -53,11 +53,11 @@ namespace olympo_webapi.Controllers
             return NoContent();
         }
 
-        [HttpGet("sessions")]
-        public async Task<IActionResult> GetSessionsByUserAndExercise(int userId, int exerciseId)
+        [HttpGet("sessions/{userId}")]
+        public async Task<IActionResult> GetSessionsByUserAndExercise(int userId)
         {
             var sessions = await _context.Sessions
-                .Where(s => s.UserId == userId && s.ExerciseId == exerciseId)
+                .Where(s => s.UserId == userId)
                 .Include(s => s.Exercise)
                 .Include(s => s.User)
                 .ToListAsync();
