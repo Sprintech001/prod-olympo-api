@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("olympo-webapi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2aae7ad715d3f9d84a7e38d52b8f4ebcda7b3a13")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bbfd56cd266244f157c6a7edb3047474afe12a33")]
 [assembly: System.Reflection.AssemblyProductAttribute("olympo-webapi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("olympo-webapi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
