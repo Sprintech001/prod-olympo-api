@@ -22,12 +22,12 @@ namespace olympo_webapi.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        
         public string? CPF { get; set; }
         public string? Phone { get; set; }
         public UserType? Type { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? ImagePath { get; set; }
+        public string? IdentityId { get; set; }
 
         [NotMapped]
         public IFormFile? Image { get; set; }

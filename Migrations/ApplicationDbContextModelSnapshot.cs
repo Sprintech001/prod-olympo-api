@@ -319,6 +319,9 @@ namespace olympo_webapi.Migrations
                     b.Property<double>("Breaks")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("Day")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
@@ -359,6 +362,9 @@ namespace olympo_webapi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdentityId")
                         .HasColumnType("text");
 
                     b.Property<string>("ImagePath")
@@ -465,7 +471,7 @@ namespace olympo_webapi.Migrations
             modelBuilder.Entity("olympo_webapi.Models.GymUser", b =>
                 {
                     b.HasOne("olympo_webapi.Models.Gym", "Gym")
-                        .WithMany("Users")
+                        .WithMany("GymUsers")
                         .HasForeignKey("GymId");
 
                     b.HasOne("olympo_webapi.Models.User", "User")
@@ -518,7 +524,7 @@ namespace olympo_webapi.Migrations
 
             modelBuilder.Entity("olympo_webapi.Models.Gym", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("GymUsers");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.User", b =>

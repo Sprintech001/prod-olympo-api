@@ -69,7 +69,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.AllowedUserNameCharacters =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ "; 
 });
 
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
@@ -110,10 +110,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseCors("AllowAll");
-app.UseAuthentication(); // Middleware de autenticação
-app.UseAuthorization();  // Middleware de autorização
+app.UseAuthentication(); 
+app.UseAuthorization();  
 
-app.MapControllers(); // Certifique-se de que os controladores estão mapeados
+app.MapControllers(); 
 
 app.Run();
 

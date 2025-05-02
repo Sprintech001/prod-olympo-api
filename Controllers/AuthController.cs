@@ -61,7 +61,6 @@ public class AuthController : ControllerBase
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        // Retorna os dados do usuário do Identity e da tabela User
         return Ok(new
         {
             Message = "Login realizado com sucesso.",
@@ -215,19 +214,26 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpGet("full-users")]
-    // [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GetFullUsers()
+    /*
+    * feat(#): Permitir apenas que o administrdor veja apenas os usuários vinculados a sua.
+    */
+
+    [HttpGet("full-users/{type}")]
+    public async Task<IActionResult> GetFullUsers(int type)
     {
         try
         {
             var users = await _userManager.Users
                 .Include(u => u.User)
+                .ThenInclude(user => user.Gyms)
+                .ThenInclude(gymUser => gymUser.Gym)
+                .Where(u => u.User != null && (int)u.User.Type == type) 
                 .Select(u => new
                 {
                     IdentityId = u.Id,
                     u.UserName,
                     u.Email,
+                    u.PasswordHash,
                     AppUser = u.User != null ? new
                     {
                         u.User.Id,
@@ -237,10 +243,22 @@ public class AuthController : ControllerBase
                         u.User.Phone,
                         u.User.BirthDate,
                         u.User.Type,
-                        u.User.ImagePath
+                        u.User.ImagePath,
+                        Gym = u.User.Gyms != null ? u.User.Gyms.Select(gymUser => new
+                        {
+                            gymUser.Gym.Id,
+                            gymUser.Gym.Name,
+                            gymUser.Gym.Address,
+                            gymUser.Gym.PhoneNumber
+                        }).FirstOrDefault() : null
                     } : null
                 })
                 .ToListAsync();
+
+            if (!users.Any())
+            {
+                return NotFound("Nenhum usuário encontrado para o tipo especificado.");
+            }
 
             return Ok(users);
         }
@@ -251,27 +269,35 @@ public class AuthController : ControllerBase
     }
 
     [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateUserData(Guid id, [FromBody] UpdateUserRequest request)
+    public async Task<IActionResult> UpdateUserData(int? id, [FromBody] UpdateUserRequest request)
     {
-        try
+        try 
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id.ToString());
+            if (id == null)
+                return BadRequest("O ID do usuário (rota) é obrigatório.");
+            if (request.IdentityId == null)
+                return BadRequest("O ID do usuário (payload) é obrigatório.");
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
-                return NotFound("Usuário não encontrado.");
+                return NotFound("Usuário não encontrado na tabela User.");
 
-            var appUser = await _userManager.Users.FirstOrDefaultAsync(au => au.UserId == user.Id);
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(au => au.Id == request.IdentityId.ToString());
             if (appUser == null)
-                return NotFound("Dados de login não encontrados.");
+                return NotFound("Usuário não encontrado na tabela Identity.");
 
-            user.Name = request.Name ?? user.Name;
-            user.Email = request.Email ?? user.Email;
-            user.CPF = request.CPF ?? user.CPF;
-            user.Phone = request.Phone ?? user.Phone;
-            user.BirthDate = request.BirthDate ?? user.BirthDate;
-            user.Type = request.Type ?? user.Type;
+            if (appUser.UserId != user.Id)
+                return BadRequest("O ID do usuário no Identity não corresponde ao ID do usuário na tabela User.");
+
+            if (!string.IsNullOrEmpty(request.Email) && request.Email != appUser.Email)
+            {
+                var emailExists = await _userManager.Users.AnyAsync(u => u.Email == request.Email && u.Id != appUser.Id);
+                if (emailExists)
+                    return BadRequest("O e-mail informado já está em uso por outro usuário.");
+                appUser.Email = request.Email;
+            }
 
             appUser.UserName = request.UserName ?? appUser.UserName;
-            appUser.Email = request.Email ?? appUser.Email;
 
             if (!string.IsNullOrEmpty(request.Password))
             {
@@ -281,49 +307,64 @@ public class AuthController : ControllerBase
                     return BadRequest("Erro ao atualizar a senha: " + string.Join(", ", passwordResult.Errors.Select(e => e.Description)));
             }
 
+            var identityResult = await _userManager.UpdateAsync(appUser);
+            if (!identityResult.Succeeded)
+                return BadRequest("Erro ao atualizar os dados de login: " + string.Join(", ", identityResult.Errors.Select(e => e.Description)));
+
+            user.Name = request.UserName ?? user.Name;
+            user.Email = request.Email ?? user.Email;
+            user.CPF = request.CPF ?? user.CPF;
+            user.Phone = request.Phone ?? user.Phone;
+
+            if (request.BirthDate.HasValue)
+            {
+                user.BirthDate = DateTime.SpecifyKind(request.BirthDate.Value, DateTimeKind.Utc);
+            }
+
+            if (!string.IsNullOrEmpty(request.ImagePath))
+                user.ImagePath = request.ImagePath;
+
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            var identityResult = await _userManager.UpdateAsync(appUser);
-            if (!identityResult.Succeeded)
-                return BadRequest("Erro ao atualizar os dados de login.");
+            return Ok("Dados atualizados com sucesso.");
 
-            return Ok("Dados do usuário atualizados com sucesso.");
         }
         catch (Exception ex)
         {
             return StatusCode(500, new { error = "Erro interno no servidor.", details = ex.Message });
         }
     }
-}
 
-public class LoginRequest
-{
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public bool RememberMe { get; set; }
-}
+    public class LoginRequest
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public bool RememberMe { get; set; }
+    }
 
-public class RegisterRequest
-{
-    public string Username { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    public class RegisterRequest
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
-    public string? CPF { get; set; }
-    public string? Phone { get; set; }
-    public DateTime? BirthDate { get; set; }
-    public UserType? Type { get; set; }
-}
+        public string? CPF { get; set; }
+        public string? Phone { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public UserType? Type { get; set; }
+    }
 
-public class UpdateUserRequest
-{
-    public string? Name { get; set; }
-    public string? Email { get; set; }
-    public string? CPF { get; set; }
-    public string? Phone { get; set; }
-    public DateTime? BirthDate { get; set; }
-    public UserType? Type { get; set; }
-    public string? UserName { get; set; }
-    public string? Password { get; set; }
-}
+    public class UpdateUserRequest
+    {
+        public Guid? IdentityId { get; set; }
+        public string? UserName { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
+        public string? CPF { get; set; }
+        public string? Phone { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public string? ImagePath { get; set; }
+        public UserType? Type { get; set; }
+    }
+};

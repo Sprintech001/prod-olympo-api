@@ -170,6 +170,9 @@ namespace olympo_webapi.Migrations.Connection
                     b.Property<double>("Breaks")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("Day")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
@@ -212,6 +215,9 @@ namespace olympo_webapi.Migrations.Connection
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("IdentityId")
+                        .HasColumnType("text");
+
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
 
@@ -228,44 +234,6 @@ namespace olympo_webapi.Migrations.Connection
                     b.HasKey("Id");
 
                     b.ToTable("ConnectionUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CPF = "123.456.789-01",
-                            Email = "adm@gmail.com",
-                            ImagePath = "defaultphoto.jpg",
-                            Name = "Admin",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CPF = "987.654.321-09",
-                            Email = "jose@gmail.com",
-                            ImagePath = "defaultphoto.jpg",
-                            Name = "José",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CPF = "111.222.333-44",
-                            Email = "maria@gmail.com",
-                            ImagePath = "defaultphoto.jpg",
-                            Name = "Maria",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CPF = "555.666.777-88",
-                            Email = "joao@gmail.com",
-                            ImagePath = "defaultphoto.jpg",
-                            Name = "João",
-                            Type = 2
-                        });
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.UserExercise", b =>
@@ -289,7 +257,7 @@ namespace olympo_webapi.Migrations.Connection
             modelBuilder.Entity("olympo_webapi.Models.GymUser", b =>
                 {
                     b.HasOne("olympo_webapi.Models.Gym", "Gym")
-                        .WithMany("Users")
+                        .WithMany("GymUsers")
                         .HasForeignKey("GymId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -351,7 +319,7 @@ namespace olympo_webapi.Migrations.Connection
 
             modelBuilder.Entity("olympo_webapi.Models.Gym", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("GymUsers");
                 });
 
             modelBuilder.Entity("olympo_webapi.Models.User", b =>

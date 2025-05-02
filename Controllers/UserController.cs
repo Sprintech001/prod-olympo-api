@@ -140,6 +140,25 @@ namespace olympo_webapi.Controllers
             }
         }
 
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            try
+            {
+                var filePath = await _fileUploadService.UploadFileAsync(file);
+                return Ok(new { filePath });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro: {ex}");
+                return StatusCode(500, "An error occurred while processing the request. ==> " + ex.Message);
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] User updatedUser)
         {
@@ -158,7 +177,11 @@ namespace olympo_webapi.Controllers
 
                 existingUser.Name = updatedUser.Name;
                 existingUser.Email = updatedUser.Email;
+                existingUser.Phone = updatedUser.Phone;
+                existingUser.CPF = updatedUser.CPF;
+                existingUser.BirthDate = updatedUser.BirthDate;
                 existingUser.Image = updatedUser.Image;
+
 
                 await _userRepository.UpdateAsync(existingUser);
 
@@ -228,7 +251,6 @@ namespace olympo_webapi.Controllers
                 existingUser.Phone = updatedUser.Phone ?? existingUser.Phone;
                 existingUser.BirthDate = updatedUser.BirthDate ?? existingUser.BirthDate;
 
-                // Gerencia o upload da imagem
                 if (image != null)
                 {
                     var fileUploadService = new FileUploadService();
@@ -249,5 +271,28 @@ namespace olympo_webapi.Controllers
                 return StatusCode(500, new { error = "Erro interno no servidor.", details = ex.Message });
             }
         }
+
+
+        // ----------------- TIMESTAMP OF SERVER ----------------- //
+
+        // This endpoint returns the current UTC date and time of the server
+        // The objetcive is return the date for exercise day.
+
+        [HttpGet("now")]
+        [Route("now")]
+        public IActionResult GetCurrentDate()
+        {
+            var zona = TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"); // Windows
+            var agora = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zona);
+
+            return Ok(new {
+                date = agora.ToString("yyyy-MM-dd"),
+                time = agora.ToString("HH:mm:ss"),
+                dayOfWeek = agora.DayOfWeek.ToString(),
+                timeZone = zona.DisplayName,
+                timeZoneOffset = "-03:00:00"
+            });
+        }
+
     }
 }
